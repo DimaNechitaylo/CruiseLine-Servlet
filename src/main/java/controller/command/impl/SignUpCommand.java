@@ -9,7 +9,7 @@ import controller.command.DataExtractor;
 public class SignUpCommand implements Command, DataExtractor<String>{
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) {
+	public String execute(HttpServletRequest request) {
 		request.getSession().setAttribute("login", request.getParameter("login"));
 		return "pages/home.jsp";
 	}

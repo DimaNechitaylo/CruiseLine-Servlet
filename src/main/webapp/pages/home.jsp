@@ -8,6 +8,12 @@
 Home
 </head>
 <body>
+	<jsp:include page="header.jsp"/>
+	<br/>
+	Home page
+	
+	
+	<jsp:include page="footer.jsp"/>
 
 </body>
 </html>

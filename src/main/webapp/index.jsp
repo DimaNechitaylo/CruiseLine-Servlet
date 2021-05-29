@@ -2,10 +2,13 @@
     pageEncoding="UTF-8"%>
 <html>
 <body>
-<h2>First main major page</h2>
-	<form action = "main?action=signup" method="post">
-		Login<input type="text" name = "login">
-		<input type="submit" value="send">
-	</form>
+	<body>
+	<jsp:include page="pages/header.jsp"/>
+	<br/>
+	Index page
+	<br/>
+	<jsp:include page="pages/footer.jsp"/>
+
+	</body>
 </body>
 </html>

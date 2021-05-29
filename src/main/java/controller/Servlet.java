@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +14,7 @@ import org.apache.log4j.Logger;
 
 import controller.command.Command;
 import controller.command.CommandCaller;
+import controller.command.impl.SignUpCommand;
 
 @WebServlet("/main")
 public class Servlet extends HttpServlet {
@@ -52,9 +52,12 @@ public class Servlet extends HttpServlet {
 			HttpServletResponse response) 
 					throws ServletException, IOException {
         String command  = request.getParameter("action");
-        String path = commandCaller.call(command.toUpperCase()).execute(request, response);
+        if(command.isBlank()) {
+        	command = "/CruiseLine-Servlet/index.jsp";
+        }
+        String path = commandCaller.call(command.toUpperCase()).execute(request);
         if(path.contains("redirect:")){
-            response.sendRedirect(path.replace("redirect:", ""));
+            response.sendRedirect(path.replace("redirect:", "/"));
         }else {
             request.getRequestDispatcher(path).forward(request, response);
         }
