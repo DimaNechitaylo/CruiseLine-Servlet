@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,23 +11,30 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import controller.command.Command;
+import org.apache.log4j.Logger;
 
-@WebServlet("/Servlet")
+import controller.command.Command;
+import controller.command.CommandCaller;
+
+@WebServlet("/main")
 public class Servlet extends HttpServlet {
+    private static Logger logger = Logger.getLogger(Servlet.class.getName());
+
 	private static final long serialVersionUID = 1L;
 	
-	private Map<String, Command> commands = new HashMap<>();
+    private  final  CommandCaller commandCaller = new CommandCaller();
 
 	@Override
 	public void init(){
-		log("vd");
-        //init command
+        logger.info("init");
     }
 
 	protected void doGet(HttpServletRequest request, 
 			HttpServletResponse response) 
 					throws ServletException, IOException {
+        String command  = request.getParameter("action");
+        logger.info("doGet "+command);
+//        response.getWriter().print("Hello from servlet");
 		processRequest(request, response);
 	}
 
@@ -35,21 +43,20 @@ public class Servlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, 
 			HttpServletResponse response) 
 					throws ServletException, IOException {
-        processRequest(request, response);
+        String command  = request.getParameter("action");
+        logger.info("doPost "+command);
+		processRequest(request, response);
 	}
 	
 	private void processRequest(HttpServletRequest request, 
 			HttpServletResponse response) 
 					throws ServletException, IOException {
-		String path = request.getRequestURI();
-        path = path.replaceAll(".*/app/" , "");
-        Command command = commands.getOrDefault(path ,
-                (r)->"/index.jsp)");
-        String page = command.execute(request);
-        if(page.contains("redirect:")){
-            response.sendRedirect(page.replace("redirect:", "/api"));
+        String command  = request.getParameter("action");
+        String path = commandCaller.call(command.toUpperCase()).execute(request, response);
+        if(path.contains("redirect:")){
+            response.sendRedirect(path.replace("redirect:", ""));
         }else {
-            request.getRequestDispatcher(page).forward(request, response);
+            request.getRequestDispatcher(path).forward(request, response);
         }
 		
 	}
