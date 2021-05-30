@@ -1,16 +1,29 @@
 package controller.command.impl;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import controller.command.Command;
 import controller.command.DataExtractor;
+import model.dto.UserDTO;
+import model.service.UserService;
+import model.service.impl.UserServiceImpl;
 
 public class SignUpCommand implements Command, DataExtractor<String>{
+    private UserService userService;
 
+    public SignUpCommand() {
+    	userService = new UserServiceImpl();
+    }
+    
 	@Override
 	public String execute(HttpServletRequest request) {
-		request.getSession().setAttribute("login", request.getParameter("login"));
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        UserDTO userDTO = userService.signUp(UserDTO.builder()
+        		.username(username)
+        		.password(password)
+        		.build());        
 		return "pages/home.jsp";
 	}
 	

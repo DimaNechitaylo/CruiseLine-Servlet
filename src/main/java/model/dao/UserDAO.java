@@ -4,8 +4,9 @@ import java.util.Optional;
 
 import model.entity.User;
 
-public interface UserDao {
+public interface UserDAO {
 	Optional<User> getUser(int id);
+	Optional<User> getUser(String username);
     int addUser(User user);
     void deleteUser(String id);
     void updateUser(User user);

@@ -1,5 +1,6 @@
 package model.dao;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -28,11 +29,12 @@ public class DBManager {
 	        return manager;
 	    }
 
-	    public synchronized Connection getConnection() throws SQLException {
+	    public synchronized Connection getConnection() throws SQLException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, ClassNotFoundException {
+	    	Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
 	        return manager.createConnection();
 	    }
 
 	    private Connection createConnection() throws SQLException {
-	        return DriverManager.getConnection(connectionUrl, user,password);
+	        return DriverManager.getConnection(connectionUrl, user, password);
 	    }
 }

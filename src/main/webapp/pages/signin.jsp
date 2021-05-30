@@ -8,8 +8,11 @@
 </head>
 <body>
 <h1>Login</h1>
+	
 	<form action = "/CruiseLine-Servlet/main?action=signin" method="post">
-		Login<input type="text" name = "login">
+		Username<input type="text" name = "username">
+		<br\>
+		Password<input type="text" name = "password">
 		<input type="submit" value="send">
 	</form>
 </body>

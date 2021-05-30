@@ -1,21 +1,26 @@
 package model.dao;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import org.apache.log4j.Logger;
+
+import controller.Servlet;
+
 public class DBRepository {
-	 protected Connection connection;
+	private static Logger logger = Logger.getLogger(Servlet.class.getName());
 
-	    public DBRepository()
-	    {
-	        try
-	        {
+	protected Connection connection;
 
-	            connection = DBManager.getInstance().getConnection();;
-	        }
-	        catch (SQLException e)
-	        {
-	            e.printStackTrace();
-	        }
-	    }
+	public DBRepository() {
+			try {
+				connection = DBManager.getInstance().getConnection();
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException
+					| SQLException e) {
+				logger.error(e + " during db connection");
+			}
+		
+	}
 }

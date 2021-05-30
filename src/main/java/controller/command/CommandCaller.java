@@ -3,6 +3,7 @@ package controller.command;
 import java.util.HashMap;
 import java.util.Map;
 
+import controller.command.impl.SignInCommand;
 import controller.command.impl.SignUpCommand;
 
 public class CommandCaller {
@@ -10,6 +11,8 @@ public class CommandCaller {
 
     public CommandCaller() {
         commands.put("SIGNUP", new SignUpCommand());
+        commands.put("SIGNIN", new SignInCommand());
+
     }
 
     public Command call(String commandName) {
