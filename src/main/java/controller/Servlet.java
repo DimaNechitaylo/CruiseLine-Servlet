@@ -3,12 +3,14 @@ package controller;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -32,10 +34,8 @@ public class Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, 
 			HttpServletResponse response) 
 					throws ServletException, IOException {
-        String command  = request.getParameter("action");
-        logger.info("doGet "+command);
-//        response.getWriter().print("Hello from servlet");
-		processRequest(request, response);
+      logger.info("doGet " + request.getParameter("action"));
+      processRequest(request, response);
 	}
 
 
@@ -43,8 +43,7 @@ public class Servlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, 
 			HttpServletResponse response) 
 					throws ServletException, IOException {
-        String command  = request.getParameter("action");
-        logger.info("doPost "+command);
+        logger.info("doPost " + request.getParameter("action"));
 		processRequest(request, response);
 	}
 	
@@ -52,10 +51,12 @@ public class Servlet extends HttpServlet {
 			HttpServletResponse response) 
 					throws ServletException, IOException {
         String command  = request.getParameter("action");
-        if(command.isBlank()) {
-        	command = "/CruiseLine-Servlet/index.jsp";
+        if(Objects.isNull(command) || command.isBlank()) {
+        	response.sendRedirect("/CruiseLine-Servlet/index.jsp");
+        	return;
         }
         String path = commandCaller.call(command.toUpperCase()).execute(request);
+        logger.debug(request.getSession().getAttribute("username"));
         if(path.contains("redirect:")){
             response.sendRedirect(path.replace("redirect:", "/"));
         }else {
