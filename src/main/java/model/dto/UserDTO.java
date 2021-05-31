@@ -1,9 +1,12 @@
 package model.dto;
 
+import model.entity.Role;
+
 public class UserDTO {
 	private String username;
     private String password;
-    
+    private Role role;
+
     public UserDTO(){    }
 
 	public String getUsername() {
@@ -21,6 +24,14 @@ public class UserDTO {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
     
 	public static Builder builder() {
         return new UserDTO().new Builder();
@@ -37,6 +48,13 @@ public class UserDTO {
             return this;
         }
     	
+    	public Builder role(Role role) {
+            UserDTO.this.setRole(role);
+            return this;
+        }
+    	
+    	
+    	
     	public UserDTO build() {
             return UserDTO.this;
         }
@@ -46,8 +64,9 @@ public class UserDTO {
 	@Override
 	public String toString() {
 		return "UserDTO{"+
-				"username = "+this.getUsername()+
-				"password = "+this.getPassword() +
-                "}";
+				" username = "+this.getUsername()+
+				" password = "+this.getPassword() +
+				" role = "+this.getRole() +
+                " }";
 	}
 }

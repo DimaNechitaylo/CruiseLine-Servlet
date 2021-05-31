@@ -10,9 +10,9 @@ import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 
-import controller.Servlet;
 import model.dao.DBRepository;
 import model.dao.UserDAO;
+import model.entity.Role;
 import model.entity.User;
 
 public class UserDAOImpl extends DBRepository  implements UserDAO{
@@ -20,11 +20,11 @@ public class UserDAOImpl extends DBRepository  implements UserDAO{
     ResourceBundle bundle = ResourceBundle.getBundle("query", Locale.getDefault());
 
 	@Override
-	public Optional<User> getUser(int id) {
+	public Optional<User> getUser(Long id) {
 		User user = User.builder().build();
         String query = bundle.getString("user.getUserById");
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, id);
+            statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 user = extractEntity(resultSet);
             }
@@ -50,8 +50,8 @@ public class UserDAOImpl extends DBRepository  implements UserDAO{
 	}
 
 	@Override
-	public int addUser(User user) {
-		int userId = 0;
+	public Long addUser(User user) {
+		Long userId = 0L;
         String query = bundle.getString("user.addUser");
         try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, user.getUsername());
@@ -59,7 +59,7 @@ public class UserDAOImpl extends DBRepository  implements UserDAO{
             statement.executeUpdate();
             try (ResultSet resultSet = statement.getGeneratedKeys()) {
                 while (resultSet.next()) {
-                    userId = resultSet.getInt(1);
+                    userId = resultSet.getLong(1);
                 }
             }
         } catch (SQLException throwables) {
@@ -99,6 +99,7 @@ public class UserDAOImpl extends DBRepository  implements UserDAO{
             		.id(resultSet.getLong("id"))
             		.username(resultSet.getString("username"))
             		.password(resultSet.getString("password"))
+            		.role(Role.valueOf(resultSet.getString("r.name")))
             		.build();
         }
         return user;

@@ -4,7 +4,7 @@ import converter.AbstractConvertor;
 import model.dto.UserDTO;
 import model.entity.User;
 
-public class UserConverter  extends AbstractConvertor<User, UserDTO> {
+public class UserConverter extends AbstractConvertor<User, UserDTO> {
 
 	public UserConverter(Class<User> entityClass, Class<UserDTO> dtoClass) {
 		super(entityClass, dtoClass);
@@ -15,6 +15,7 @@ public class UserConverter  extends AbstractConvertor<User, UserDTO> {
         UserDTO userDTO =  UserDTO.builder()
         		.username(user.getUsername())
         		.password(user.getPassword())
+        		.role(user.getRole())
         		.build();
         return userDTO;
     }
@@ -24,6 +25,7 @@ public class UserConverter  extends AbstractConvertor<User, UserDTO> {
         User user =  User.builder()
         		.username(userDTO.getUsername())
         		.password(userDTO.getPassword())
+        		.role(userDTO.getRole())
         		.build();       
         return user;
     }

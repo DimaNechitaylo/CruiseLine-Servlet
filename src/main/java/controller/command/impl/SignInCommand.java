@@ -1,6 +1,7 @@
 package controller.command.impl;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -22,17 +23,16 @@ public class SignInCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
+		HttpSession session = request.getSession();
 		try {
-			UserDTO userDTO = userService.signIn(username, password);
-			logger.debug(userDTO);
-			request.getSession().setAttribute("user", userDTO);
-			return "pages/home.jsp";
+			UserDTO userDTO = userService.signIn(request.getParameter("username"), 
+					request.getParameter("password"));
+			session.setAttribute("username", userDTO.getUsername());
+			session.setAttribute("role", userDTO.getRole());
 		} catch (UserNotFoundException e) {
-			logger.error(e);
+			logger.info(e);
 		}
-		return null;
+		return "redirect:CruiseLine-Servlet";
 	}
 
 }

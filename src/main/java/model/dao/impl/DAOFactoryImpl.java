@@ -9,8 +9,6 @@ public class DAOFactoryImpl implements DAOFactory{
 	
 	@Override
 	public UserDAO getUserDAO() {
-		System.out.println("\n\n-----UserDAO-----\n\n");
-
 		return new UserDAOImpl();
 	}
 

@@ -4,7 +4,7 @@ import model.dto.UserDTO;
 import util.exception.UserNotFoundException;
 
 public interface UserService {
-    UserDTO getUser(int id);
-    UserDTO signUp(UserDTO userDTO);
-	UserDTO signIn(String username, String password) throws UserNotFoundException;
+    public UserDTO getUser(Long id);
+    public UserDTO signUp(UserDTO userDTO);
+    public UserDTO signIn(String username, String password) throws UserNotFoundException;
 }

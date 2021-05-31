@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService{
     }
 	
 	@Override
-	public UserDTO getUser(int id) {
+	public UserDTO getUser(Long id) {
 		return daoFactory.getUserDAO()
 				.getUser(id)
 				.map(userConverter::toDto)
@@ -46,12 +46,10 @@ public class UserServiceImpl implements UserService{
 	public UserDTO signIn(String username, String password) throws UserNotFoundException {
 		User user = daoFactory.getUserDAO().getUser(username)
 				.orElseThrow(() -> new UserNotFoundException("User not found with username -" + username));
-		logger.debug(PasswordEncoder.validatePassword(password, user.getPassword()));
-		return UserDTO.builder()
-				.username(user.getUsername())
-				.password(user.getPassword())
-				.build();
-				
+		if(!PasswordEncoder.validatePassword(password, user.getPassword())) {
+			throw new UserNotFoundException(username + " (id:"+user.getId()+") entered the wrong password");
+		}
+		return userConverter.toDto(user);
 	}
 	
 }

@@ -24,7 +24,7 @@ public class SignUpCommand implements Command, DataExtractor<String>{
         		.username(username)
         		.password(password)
         		.build());        
-		return "pages/home.jsp";
+		return "index.jsp";
 	}
 	
 	@Override
