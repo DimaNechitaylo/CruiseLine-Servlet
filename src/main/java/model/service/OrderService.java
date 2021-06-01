@@ -5,13 +5,13 @@ import java.util.List;
 import model.dto.OrderDTO;
 
 public interface OrderService {
-	public OrderDTO getOrderByCruiseIdAndUserId(Long cruiseId);
-	public OrderDTO submitOrderRequest(Long cruiseId);
-	public List<OrderDTO> getUserOrders();
+	public OrderDTO getOrder(Long cruiseId, Long userId);
+	public boolean submitOrderRequest(Long cruiseId, Long userId);
+	public List<OrderDTO> getUserOrders(Long userId);
 	public List<OrderDTO> getGetOrderForVerification();
-	public OrderDTO pay(Long orderId);
-	public OrderDTO reject(Long orderId);
-	public OrderDTO cancel(Long orderId);
-	public OrderDTO confirm(Long orderId);
-	public OrderDTO start(Long orderId);
+	public boolean pay(Long orderId, Long userId);
+	public boolean reject(Long orderId, Long userId);
+	public boolean cancel(Long orderId, Long userId);
+	public boolean confirm(Long orderId, Long userId);
+	public boolean start(Long orderId, Long userId);
 }

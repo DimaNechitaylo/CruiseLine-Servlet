@@ -30,9 +30,9 @@ public class ShipDAOImpl extends DBRepository implements ShipDAO {
 	}
 
 	@Override
-	public Long addShip(Ship user) {
+	public boolean addShip(Ship user) {
 		// TODO Auto-generated method stub
-		return null;
+		return false;
 	}
 
 	@Override

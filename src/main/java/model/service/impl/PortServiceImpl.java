@@ -1,22 +1,26 @@
 package model.service.impl;
 
-import java.util.List;
+import org.apache.log4j.Logger;
 
+import model.dao.DAOFactory;
+import model.dao.impl.DAOFactoryImpl;
 import model.entity.Port;
 import model.service.PortService;
+import util.exception.PortNotFoundException;
 
 public class PortServiceImpl implements PortService {
+    private static Logger logger = Logger.getLogger(UserServiceImpl.class.getName());
+
+    private final DAOFactory daoFactory;
+
+	public PortServiceImpl() { 
+		daoFactory = new DAOFactoryImpl();
+    }
 
 	@Override
-	public List<Port> getAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Port getPort(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	public Port getPort(Long id) {
+		return daoFactory.getPortDAO().getPort(id)
+				.orElseThrow(() -> new PortNotFoundException("Port with id = "+id+" not found"));
 	}
 
 }

@@ -15,11 +15,13 @@ public interface OrderDAO {
 	boolean addOrder(Order order);
 	boolean deleteOrder(Long id);
     boolean updateOrder(Order order);
-    Optional<List<Order>> findByUser(User user);
+    Optional<List<Order>> findByUser(Long userId);
     boolean finishCruises();
     boolean startCruises();
     Optional<OrderStatus> findStatusByOrderId(Long orderId);
 	Optional<List<Order>> findByStatus(OrderStatus processing);
-	Optional<Order> findByUserAndIdAndStatusNotStatus(User user, Long order_id, OrderStatus status);
-    public Order extractEntity(ResultSet resultSet) throws SQLException;
+	Optional<Order> findByUserAndIdAndStatusNot(Long userId, Long orderId, OrderStatus status);
+	Optional<Order> findByUserAndIdAndStatus(Long userId, Long orderId, OrderStatus status);
+	Optional<Order> findByIdAndStatus(Long orderId, OrderStatus status);
+	public Order extractEntity(ResultSet resultSet) throws SQLException;
 }

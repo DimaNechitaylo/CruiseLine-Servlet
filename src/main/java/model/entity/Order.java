@@ -30,23 +30,29 @@ public class Order {
 		this.status = status;
 	}
 	
-	public void reject() {
+	public Order reject() {
 		this.setStatus(OrderStatus.REJECTED);
+		return this;
 	}
-	public void cancel() {
+	public Order cancel() {
 		this.setStatus(OrderStatus.CANCELED);
+		return this;
 	}
-	public void pay() {
+	public Order pay() {
 		this.setStatus(OrderStatus.PAID);
+		return this;
 	}
-	public void start() {
+	public Order start() {
 		this.setStatus(OrderStatus.STARTED);
+		return this;
 	}
-	public void finish() {
+	public Order finish() {
 		this.setStatus(OrderStatus.FINISHED);
+		return this;
 	}
-	public void confirm() {
+	public Order confirm() {
 		this.setStatus(OrderStatus.WATING_PAYMENT);
+		return this;
 	}
 	public static Builder builder() {
         return new Order().new Builder();
