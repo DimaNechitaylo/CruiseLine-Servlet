@@ -2,7 +2,6 @@ package model.service.impl;
 
 import org.apache.log4j.Logger;
 
-import controller.command.impl.SignInCommand;
 import converter.impl.UserConverter;
 import model.dao.DAOFactory;
 import model.dao.impl.DAOFactoryImpl;

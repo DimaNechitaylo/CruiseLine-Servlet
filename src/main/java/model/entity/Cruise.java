@@ -3,8 +3,6 @@ package model.entity;
 import java.time.LocalDate;
 import java.util.List;
 
-import model.entity.Port.Builder;
-
 public class Cruise {
 	private Long id;
 	private String name;

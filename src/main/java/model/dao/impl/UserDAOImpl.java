@@ -4,9 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Locale;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 
@@ -17,12 +15,11 @@ import model.entity.User;
 
 public class UserDAOImpl extends DBRepository  implements UserDAO{
     private static Logger logger = Logger.getLogger(UserDAOImpl.class.getName());
-    ResourceBundle bundle = ResourceBundle.getBundle("query", Locale.getDefault());
 
 	@Override
 	public Optional<User> getUser(Long id) {
 		User user = User.builder().build();
-        String query = bundle.getString("user.getUserById");
+        String query = bundle.getString("user.getById");
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -37,7 +34,7 @@ public class UserDAOImpl extends DBRepository  implements UserDAO{
 	@Override
 	public Optional<User> getUser(String username){
 		User user = User.builder().build();
-        String query = bundle.getString("user.getUserByUsernameAndPassword");
+        String query = bundle.getString("user.getByUsernameAndPassword");
 		try(PreparedStatement statement = connection.prepareStatement(query)){
 			statement.setString(1, username);
 			try (ResultSet resultSet = statement.executeQuery()) {
@@ -52,7 +49,7 @@ public class UserDAOImpl extends DBRepository  implements UserDAO{
 	@Override
 	public Long addUser(User user) {
 		Long userId = 0L;
-        String query = bundle.getString("user.addUser");
+        String query = bundle.getString("user.add");
         try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getPassword());
@@ -69,21 +66,15 @@ public class UserDAOImpl extends DBRepository  implements UserDAO{
 	}
 
 	@Override
-	public void deleteUser(String id) {
+	public boolean deleteUser(Long id) {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 	@Override
-	public void updateUser(User user) {
+	public boolean updateUser(User user) {
 		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Optional<User> getUser(String login, String pass, boolean isAdmin) {
-		// TODO Auto-generated method stub
-		return null;
+		return false;
 	}
 
 	@Override

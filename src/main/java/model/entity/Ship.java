@@ -4,6 +4,7 @@ public class Ship {
 	private Long id;
 	private String name;
 	private int passengerСapacity;
+	
 	public Long getId() {
 		return id;
 	}

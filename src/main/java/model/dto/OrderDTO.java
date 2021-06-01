@@ -1,6 +1,5 @@
 package model.dto;
 
-import model.dto.ShipDTO.Builder;
 import model.entity.OrderStatus;
 
 public class OrderDTO {

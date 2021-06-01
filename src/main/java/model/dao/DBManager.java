@@ -7,10 +7,7 @@ import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javax.sql.DataSource;
-
 public class DBManager {
-	private static volatile DataSource dataSource;
 	private final String connectionUrl;
 	private final String user;
 	private final String password;

@@ -1,7 +1,5 @@
 package model.entity;
 
-import model.dto.UserDTO;
-import model.dto.UserDTO.Builder;
 
 public class Port {
 	private Long id;

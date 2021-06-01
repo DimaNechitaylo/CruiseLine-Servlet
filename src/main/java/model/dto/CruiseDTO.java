@@ -3,10 +3,7 @@ package model.dto;
 import java.time.LocalDate;
 import java.util.List;
 
-import model.dto.OrderDTO.Builder;
-import model.entity.Port;
 import model.entity.Ship;
-import model.entity.User;
 
 public class CruiseDTO {
 	private String name;
