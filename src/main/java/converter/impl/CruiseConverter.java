@@ -2,20 +2,17 @@ package converter.impl;
 
 import java.util.stream.Collectors;
 
-import converter.AbstractConvertor;
+import converter.Mapper;
 import model.dto.CruiseDTO;
 import model.entity.Cruise;
 import model.service.PortService;
 import model.service.impl.PortServiceImpl;
 
-public class CruiseConverter extends AbstractConvertor<Cruise, CruiseDTO>{
+public class CruiseConverter implements Mapper<Cruise, CruiseDTO>{
 	PortService portService;
 	
-	public CruiseConverter(Class<Cruise> entityClass, Class<CruiseDTO> dtoClass) {  //TODO delete
-		super(entityClass, dtoClass);
-
-	portService = new PortServiceImpl();
-	
+	public CruiseConverter() {
+		portService = new PortServiceImpl();
 	}
 
 	@Override

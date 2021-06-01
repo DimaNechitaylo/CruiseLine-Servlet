@@ -1,26 +1,20 @@
 package converter.impl;
 
-import converter.AbstractConvertor;
-import model.dto.CruiseDTO;
+import converter.Mapper;
 import model.dto.OrderDTO;
-import model.dto.UserDTO;
-import model.entity.Cruise;
 import model.entity.Order;
-import model.entity.User;
 import model.service.UserService;
 import model.service.impl.UserServiceImpl;
 
-public class OrderConverter  extends AbstractConvertor<Order, OrderDTO>{
+public class OrderConverter implements Mapper<Order, OrderDTO>{
 
 	CruiseConverter cruiseConverter;
 	UserConverter userConverter;
 	UserService userService;
 	
-	public OrderConverter(Class<Order> entityClass, Class<OrderDTO> dtoClass) {  //TODO delete
-		super(entityClass, dtoClass);
-		
-		cruiseConverter = new CruiseConverter(Cruise.class, CruiseDTO.class);
-		userConverter = new UserConverter(User.class, UserDTO.class);
+	public OrderConverter() {
+		cruiseConverter = new CruiseConverter();
+		userConverter = new UserConverter();
 		userService = new UserServiceImpl();
 	}
 

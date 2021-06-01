@@ -1,17 +1,16 @@
 package converter.impl;
 
-import converter.AbstractConvertor;
+import org.apache.log4j.Logger;
+
+import converter.Mapper;
 import model.dto.UserDTO;
 import model.entity.User;
-
-public class UserConverter extends AbstractConvertor<User, UserDTO> {
-
-	public UserConverter(Class<User> entityClass, Class<UserDTO> dtoClass) {
-		super(entityClass, dtoClass);
-	}
+public class UserConverter implements Mapper<User, UserDTO> {
+    private static Logger logger = Logger.getLogger(UserConverter.class.getName());
 
 	@Override
     public UserDTO toDto(User user) {
+		logger.debug("UsertoDto");
         UserDTO userDTO =  UserDTO.builder()
         		.username(user.getUsername())
         		.password(user.getPassword())
@@ -22,6 +21,7 @@ public class UserConverter extends AbstractConvertor<User, UserDTO> {
 
     @Override
     public User toEntity(UserDTO userDTO) {
+		logger.debug("UserDTOtoEntity");
         User user =  User.builder()
         		.username(userDTO.getUsername())
         		.password(userDTO.getPassword())

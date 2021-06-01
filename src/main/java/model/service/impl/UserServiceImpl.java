@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService{
 
 	public UserServiceImpl() { 
 		daoFactory = new DAOFactoryImpl();
-		userConverter = new UserConverter(User.class, UserDTO.class);
+		userConverter = new UserConverter();
     }
 	
 	@Override
