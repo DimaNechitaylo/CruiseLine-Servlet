@@ -54,7 +54,7 @@ public class ShipDAOImpl extends DBRepository implements ShipDAO {
 	        	ship = Ship.builder()
 	            		.id(resultSet.getLong("id"))
 	            		.name(resultSet.getString("name"))
-	            		.passengerСapacity(resultSet.getInt("id"))
+	            		.passengerСapacity(resultSet.getInt("passenger_сapacity"))
 	            		.build();
 	        }
 	        return ship;

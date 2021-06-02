@@ -12,6 +12,7 @@ public class UserConverter implements Mapper<User, UserDTO> {
     public UserDTO toDto(User user) {
 		logger.debug("UsertoDto");
         UserDTO userDTO =  UserDTO.builder()
+        		.id(user.getId())
         		.username(user.getUsername())
         		.password(user.getPassword())
         		.role(user.getRole())
@@ -23,6 +24,7 @@ public class UserConverter implements Mapper<User, UserDTO> {
     public User toEntity(UserDTO userDTO) {
 		logger.debug("UserDTOtoEntity");
         User user =  User.builder()
+        		.id(userDTO.getId())
         		.username(userDTO.getUsername())
         		.password(userDTO.getPassword())
         		.role(userDTO.getRole())

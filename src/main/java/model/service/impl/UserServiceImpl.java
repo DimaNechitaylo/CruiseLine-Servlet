@@ -29,6 +29,14 @@ public class UserServiceImpl implements UserService{
 				.map(userConverter::toDto)
 				.orElse(UserDTO.builder().build());
 	}
+	
+	@Override
+	public UserDTO getUser(String username) {
+		return daoFactory.getUserDAO()
+				.getUser(username)
+				.map(userConverter::toDto)
+				.orElse(UserDTO.builder().build());
+	}
 
 	@Override
 	public UserDTO signUp(UserDTO userDTO) {

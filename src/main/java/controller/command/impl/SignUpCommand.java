@@ -8,7 +8,7 @@ import model.dto.UserDTO;
 import model.service.UserService;
 import model.service.impl.UserServiceImpl;
 
-public class SignUpCommand implements Command, DataExtractor<String>{
+public class SignUpCommand implements Command{
     private UserService userService;
 
     public SignUpCommand() {
@@ -17,37 +17,10 @@ public class SignUpCommand implements Command, DataExtractor<String>{
     
 	@Override
 	public String execute(HttpServletRequest request) {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-
-        UserDTO userDTO = userService.signUp(UserDTO.builder()
-        		.username(username)
-        		.password(password)
+        userService.signUp(UserDTO.builder()
+        		.username(request.getParameter("username"))
+        		.password(request.getParameter("password"))
         		.build());        
 		return "index.jsp";
 	}
-	
-	@Override
-	public String extractData(HttpServletRequest request) {
-		request.getSession().getServletContext();
-		return null;
-	}
-	
-    public boolean checkUserIsLogged(HttpServletRequest request, String login) {
-    	//TODO
-//        @SuppressWarnings("unchecked")  
-//		HashSet<String> loggedUsers = (HashSet<String>) request.getSession().getServletContext()
-//                .getAttribute("loggedUsers");
-//        if (loggedUsers.stream().anyMatch(login::equals)) {
-//            return true;
-//        }
-//        loggedUsers.add(login);
-//        request.getSession().getServletContext()
-//                .setAttribute("loggedUsers", loggedUsers);
-//        return false;
-    	return false;
-    }
-
-
-
 }

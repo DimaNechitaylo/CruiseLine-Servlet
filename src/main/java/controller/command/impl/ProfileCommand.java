@@ -11,7 +11,6 @@ public class ProfileCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		logger.info("go to pages");
 		return "/pages/profile.jsp";
 	}
 

@@ -23,4 +23,10 @@ public class PortServiceImpl implements PortService {
 				.orElseThrow(() -> new PortNotFoundException("Port with id = "+id+" not found"));
 	}
 
+	@Override
+	public Port getPort(String name) {
+		return daoFactory.getPortDAO().getPort(name)
+				.orElseThrow(() -> new PortNotFoundException("Port with name = "+name+" not found"));
+	}
+
 }

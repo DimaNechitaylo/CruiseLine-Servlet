@@ -24,12 +24,12 @@ public class LoginFilter  implements Filter{
         final HttpServletRequest request = (HttpServletRequest) servletRequest;
         final HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        boolean loggedIn = request.getSession().getAttribute("username") != null
-                && request.getSession().getAttribute("role") != null;
+        boolean loggedIn = request.getSession().getAttribute("user") != null;
 
         boolean safePages =  (request.getRequestURI().contains("index.jsp")
                 || request.getRequestURI().contains("signin.jsp")
                 || request.getRequestURI().contains("signup.jsp")
+                || request.getRequestURI().contains("test.jsp")
                 || request.getRequestURI().equals("/CruiseLine-Servlet/"));
 
         boolean tryingToEnter =  "signin".equalsIgnoreCase(request.getParameter("action"))
@@ -37,10 +37,8 @@ public class LoginFilter  implements Filter{
         		|| "get_cruises".equalsIgnoreCase(request.getParameter("action"));
 
         if (loggedIn || safePages || tryingToEnter) {
-            logger.debug("if");
             filterChain.doFilter(request, response);
         } else {
-            logger.debug("else");
             response.sendRedirect(request.getContextPath()+"/pages/signin.jsp");
         }	
         

@@ -1,5 +1,7 @@
 package converter.impl;
 
+import org.apache.log4j.Logger;
+
 import converter.Mapper;
 import model.dto.OrderDTO;
 import model.entity.Order;
@@ -7,6 +9,7 @@ import model.service.UserService;
 import model.service.impl.UserServiceImpl;
 
 public class OrderConverter implements Mapper<Order, OrderDTO>{
+	private static Logger logger = Logger.getLogger(OrderConverter.class.getName());
 
 	CruiseConverter cruiseConverter;
 	UserConverter userConverter;
@@ -20,11 +23,19 @@ public class OrderConverter implements Mapper<Order, OrderDTO>{
 
 	@Override
     public OrderDTO toDto(Order order) {
-        return OrderDTO.builder()
+		logger.debug("START toDto(Order order) //"); 
+		OrderDTO o = OrderDTO.builder()
         		.userId(order.getUser().getId())
         		.cruiseDto(cruiseConverter.toDto(order.getCruise()))
         		.status(order.getStatus())
         		.build();
+		logger.debug("FINISH toDto(Order order) "); 
+		return o;
+//        return OrderDTO.builder()
+//        		.userId(order.getUser().getId())
+//        		.cruiseDto(cruiseConverter.toDto(order.getCruise()))
+//        		.status(order.getStatus())
+//        		.build();
     }
 
     @Override

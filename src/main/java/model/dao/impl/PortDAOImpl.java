@@ -28,6 +28,21 @@ public class PortDAOImpl extends DBRepository implements PortDAO{
         }
         return Optional.ofNullable(port);
 	}
+	
+	@Override
+	public Optional<Port> getPort(String name) {
+		Port port = Port.builder().build();
+        String query = bundle.getString("port.getByName");
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, name);
+            try (ResultSet resultSet = statement.executeQuery()) {
+            	port = extractEntity(resultSet);
+            }
+        } catch (SQLException e) {
+			logger.error("SQLException in getPort(String name)");	
+        }
+        return Optional.ofNullable(port);
+	}
 
 	@Override
 	public boolean addPort(Port user) {

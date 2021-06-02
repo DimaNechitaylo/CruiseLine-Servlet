@@ -1,5 +1,7 @@
 package controller.command.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +23,7 @@ public class GetCruisesCommand implements Command {
 	}
 	@Override
 	public String execute(HttpServletRequest request) {
-		List<CruiseDTO> cruises = cruiseService.getAll();
+		List<CruiseDTO> cruises = cruiseService.getAvailableCruises();
 		request.getSession().setAttribute("cruises", cruises);
 		return "redirect:CruiseLine-Servlet";
 	}

@@ -49,4 +49,13 @@ public class Ship {
 
     }
 	
+	@Override
+	public String toString() {
+		return "Ship {" + 
+				"    id: " + id + " ,\n" +
+				"    name: " + name + " ,\n" +
+				"    passengerСapacity: " + passengerСapacity +
+				"}";	
+	}
+	
 }

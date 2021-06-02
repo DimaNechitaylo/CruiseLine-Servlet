@@ -6,6 +6,7 @@ import java.util.List;
 import model.entity.Ship;
 
 public class CruiseDTO {
+	private Long id;
 	private String name;
 	private Ship ship;
 	private int passengersCount;
@@ -13,6 +14,13 @@ public class CruiseDTO {
 	private LocalDate start;
 	private LocalDate finish;
 	private List<String> portNames;
+	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	
 	public String getName() {
 		return name;
@@ -60,6 +68,11 @@ public class CruiseDTO {
         return new CruiseDTO().new Builder();
     }
 	public class Builder{
+		
+		public Builder id(Long id) {
+			CruiseDTO.this.setId(id);
+			return this;
+		}
 		
 		public Builder name(String name) {
 			CruiseDTO.this.setName(name);

@@ -15,6 +15,7 @@ import model.entity.Cruise;
 import model.entity.Order;
 import model.entity.OrderStatus;
 import model.entity.Role;
+import model.entity.Ship;
 import model.entity.User;
 
 public class OrderDAOImpl extends DBRepository implements OrderDAO {
@@ -22,15 +23,36 @@ public class OrderDAOImpl extends DBRepository implements OrderDAO {
 
 	@Override
 	public Optional<Order> getOrder(Long id) {
-		Order order = Order.builder().build();
+		Order order = null;
 		String query = bundle.getString("order.getById");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setLong(1, id);
 			try (ResultSet resultSet = statement.executeQuery()) {
-				order = extractEntity(resultSet);
+				while (resultSet.next()) {
+					order = extractEntity(resultSet);
+				}
 			}
 		} catch (SQLException e) {
-			logger.error("SQLException in getOrder(Long id)");
+			logger.error("SQLException in getOrder(Long id)" + e);
+		}
+		return Optional.ofNullable(order);
+	}
+	
+	@Override
+	public Optional<Order> getOrder(Long cruiseId, Long userId) {
+		Order order = null;
+		String query = bundle.getString("order.findByCruiseIdAndUserId");
+		try (PreparedStatement statement = connection.prepareStatement(query)) {
+			statement.setLong(1, userId);
+			statement.setLong(2, cruiseId);
+			try (ResultSet resultSet = statement.executeQuery()) {
+				logger.debug("" + cruiseId + "   "+ userId); 
+				while (resultSet.next()) {
+					order = extractEntity(resultSet);
+				}
+			}
+		} catch (SQLException e) {
+			logger.error("SQLException in getOrder(Long cruiseId, Long userId)" + e);
 		}
 		return Optional.ofNullable(order);
 	}
@@ -47,7 +69,7 @@ public class OrderDAOImpl extends DBRepository implements OrderDAO {
 			}
 			return false;
 		} catch (SQLException e) {
-			logger.error("SQLException in addOrder(Order order)");
+			logger.error("SQLException in addOrder(Order order)" + e);
 			return false;
 		}
 	}
@@ -70,7 +92,7 @@ public class OrderDAOImpl extends DBRepository implements OrderDAO {
 			}
 			return false;
 		} catch (SQLException e) {
-			logger.error("SQLException in updateOrder(Order order)");
+			logger.error("SQLException in updateOrder(Order order)" + e);
 			return false;
 		}
 	}
@@ -87,7 +109,7 @@ public class OrderDAOImpl extends DBRepository implements OrderDAO {
 			}
 			return false;
 		} catch (SQLException e) {
-			logger.error("SQLException in finishCruises()");
+			logger.error("SQLException in finishCruises()" + e);
 			return false;
 		}
 	}
@@ -104,7 +126,7 @@ public class OrderDAOImpl extends DBRepository implements OrderDAO {
 			}
 			return false;
 		} catch (SQLException e) {
-			logger.error("SQLException in startCruises()");
+			logger.error("SQLException in startCruises()" + e);
 			return false;
 		}
 	}
@@ -116,10 +138,12 @@ public class OrderDAOImpl extends DBRepository implements OrderDAO {
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setLong(1, orderId);
 			try (ResultSet resultSet = statement.executeQuery()) {
-				orderStatus = OrderStatus.valueOf(resultSet.getString("s.name"));
+				while (resultSet.next()) {
+					orderStatus = OrderStatus.valueOf(resultSet.getString("s.name"));
+				}
 			}
 		} catch (SQLException e) {
-			logger.error("SQLException in findStatusByOrderId(Long orderId)");
+			logger.error("SQLException in findStatusByOrderId(Long orderId)" + e);
 		}
 		return Optional.ofNullable(orderStatus);
 	}
@@ -136,7 +160,7 @@ public class OrderDAOImpl extends DBRepository implements OrderDAO {
 				}
 			}
 		} catch (SQLException e) {
-			logger.error("SQLException in findByStatus(OrderStatus processing)");
+			logger.error("SQLException in findByStatus(OrderStatus processing)" + e);
 		}
 		return Optional.ofNullable(orderList);
 	}
@@ -150,7 +174,9 @@ public class OrderDAOImpl extends DBRepository implements OrderDAO {
 			statement.setLong(2, orderId);
 			statement.setString(3, status.toString());
 			try (ResultSet resultSet = statement.executeQuery()) {
-				order = extractEntity(resultSet);
+				while (resultSet.next()) {
+					order = extractEntity(resultSet);
+				}
 			}
 		} catch (SQLException e) {
 			logger.error("SQLException in findByUserAndIdAndStatusNotFinished(User user, Long order_id, OrderStatus status)");
@@ -169,7 +195,9 @@ public class OrderDAOImpl extends DBRepository implements OrderDAO {
 			statement.setLong(2, orderId);
 			statement.setString(3, status.toString());
 			try (ResultSet resultSet = statement.executeQuery()) {
-				order = extractEntity(resultSet);
+				while (resultSet.next()) {
+					order = extractEntity(resultSet);
+				}
 			}
 		} catch (SQLException e) {
 			logger.error("SQLException in findByUserAndIdAndStatus(User user, Long order_id, OrderStatus status)");
@@ -187,7 +215,9 @@ public class OrderDAOImpl extends DBRepository implements OrderDAO {
 			statement.setLong(1, orderId);
 			statement.setString(2, status.toString());
 			try (ResultSet resultSet = statement.executeQuery()) {
-				order = extractEntity(resultSet);
+				while (resultSet.next()) {
+					order = extractEntity(resultSet);
+				}
 			}
 		} catch (SQLException e) {
 			logger.error("SQLException in findByUserAndIdAndStatus(User user, Long order_id, OrderStatus status)");
@@ -195,21 +225,6 @@ public class OrderDAOImpl extends DBRepository implements OrderDAO {
 		return Optional.ofNullable(order);
 	}
 	
-	@Override
-	public Optional<Order> getOrder(Long cruiseId, Long userId) {
-		Order order = Order.builder().build();
-		String query = bundle.getString("order.findByCruiseIdAndUserId");
-		try (PreparedStatement statement = connection.prepareStatement(query)) {
-			statement.setLong(1, cruiseId);
-			statement.setLong(2, userId);
-			try (ResultSet resultSet = statement.executeQuery()) {
-				order = extractEntity(resultSet);
-			}
-		} catch (SQLException e) {
-			logger.error("SQLException in getOrder(Long cruiseId, Long userId)");
-		}
-		return Optional.ofNullable(order);
-	}
 
 	@Override
 	public Optional<List<Order>> findByUser(Long userId) {
@@ -231,22 +246,25 @@ public class OrderDAOImpl extends DBRepository implements OrderDAO {
 	@Override
 	public Order extractEntity(ResultSet resultSet) throws SQLException {
 		Order order = Order.builder().build();
-		while (resultSet.next()) {
 			order = Order.builder()
 					.id(resultSet.getLong("o.id"))
 					.user(User.builder()
 							.id(resultSet.getLong("u.id"))
 							.username(resultSet.getString("u.username"))
-							.role(Role.valueOf(resultSet.getString("st.name")))
 							.build())
 					.cruise(Cruise.builder()
 						.id(resultSet.getLong("c.id"))
+						.ship(Ship.builder()
+			            		.id(resultSet.getLong("s.id"))
+			            		.name(resultSet.getString("s.name"))
+			            		.passengerСapacity(resultSet.getInt("s.passenger_сapacity"))
+			            		.build())
 						.name(resultSet.getString("c.name"))
 						.start(resultSet.getDate("c.start").toLocalDate())
 						.finish(resultSet.getDate("c.finish").toLocalDate())
 						.build())
+					.status(OrderStatus.valueOf(resultSet.getString("st.name")))
 					.build();
-		}
 		return order;
 	}
 }

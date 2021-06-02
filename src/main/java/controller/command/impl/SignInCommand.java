@@ -27,8 +27,7 @@ public class SignInCommand implements Command {
 		try {
 			UserDTO userDTO = userService.signIn(request.getParameter("username"), 
 					request.getParameter("password"));
-			session.setAttribute("username", userDTO.getUsername());
-			session.setAttribute("role", userDTO.getRole());
+			session.setAttribute("user", userDTO);
 		} catch (UserNotFoundException e) {
 			logger.info(e);
 		}

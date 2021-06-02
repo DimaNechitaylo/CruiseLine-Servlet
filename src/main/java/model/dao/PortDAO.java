@@ -8,6 +8,7 @@ import model.entity.Port;
 
 public interface PortDAO {
 	Optional<Port> getPort(Long id);
+	Optional<Port> getPort(String name);
 	boolean addPort(Port user);
 	boolean deletePort(Long id);
     boolean updatePort(Port user);

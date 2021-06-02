@@ -98,4 +98,16 @@ public class Cruise {
             return Cruise.this;
         }
 	}
+	@Override
+	public String toString() {
+		return "Cruise {" + 
+				"    id: " + id + " ,\n" +
+				"    name: " + name + " ,\n" +
+				"    ship: " + ship + " ,\n" +
+				"    ports: " + ports + " ,\n" +
+				"    passengers: " + passengers + " ,\n" +
+				"    start: " + start + " ,\n" +
+				"    finish: " + finish + 
+				"}";
+	}
 }

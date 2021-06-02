@@ -12,10 +12,7 @@
 </head>
 <body>
 Profile
-	<%=
-		request.getSession().getAttribute("username")
-	%>
-
+	  <c:out value="${user.username}"/>
 </body>
 <footer>
 	<jsp:include page="footer.jsp"/>

@@ -83,4 +83,15 @@ public class Order {
         }
 
     }
+	
+	@Override
+	public String toString() {
+		return "Cruise {" + 
+				"    id: " + id + " ,\n" +
+				"    User: " + user + " ,\n" +
+				"    Cruise: " + cruise + " ,\n" +
+				"    OrderStatus: " + status +
+				"}";
+	}
+
 }

@@ -3,12 +3,19 @@ package model.dto;
 import model.entity.Role;
 
 public class UserDTO {
+	private Long id;
 	private String username;
     private String password;
     private Role role;
 
     public UserDTO(){    }
+    public Long getId() {
+		return id;
+	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getUsername() {
 		return username;
 	}
@@ -38,6 +45,10 @@ public class UserDTO {
     }
 	
     public class Builder{
+    	public Builder id(Long id) {
+            UserDTO.this.setId(id);;
+            return this;
+        }
     	public Builder username(String username) {
             UserDTO.this.setUsername(username);;
             return this;
