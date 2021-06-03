@@ -3,15 +3,23 @@ package model.dto;
 import model.entity.OrderStatus;
 
 public class OrderDTO {
-	private Long userId;
+	private Long id;
+	private UserDTO userDto;
 	private CruiseDTO cruiseDto;
 	private OrderStatus status;
 	
-	public Long getUserId() {
-		return userId;
+	public Long getId() {
+		return id;
 	}
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public UserDTO getUserDto() {
+		return userDto;
+	}
+	public void setUserDto(UserDTO userDto) {
+		this.userDto = userDto;
 	}
 	public CruiseDTO getCruiseDto() {
 		return cruiseDto;
@@ -29,8 +37,14 @@ public class OrderDTO {
         return new OrderDTO().new Builder();
     }
 	public class Builder{
-    	public Builder userId(Long userId) {
-    		OrderDTO.this.setUserId(userId);
+		
+		public Builder id(Long id) {
+    		OrderDTO.this.setId(id);
+            return this;
+        }
+		
+    	public Builder userId(UserDTO userDto) {
+    		OrderDTO.this.setUserDto(userDto);
             return this;
         }
     	

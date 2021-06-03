@@ -12,6 +12,7 @@ public class LogOutCommand  implements Command {
 	@Override
 	public String execute(HttpServletRequest request) {
 		request.getSession().removeAttribute("user");
+		request.getSession().invalidate();
 		logger.info("User deleted from session");
 		return "/index.jsp";
 	}

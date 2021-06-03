@@ -14,12 +14,12 @@ public interface OrderDAO {
 	Optional<Order> getOrder(Long cruiseId, Long userId);
 	boolean addOrder(Order order);
 	boolean deleteOrder(Long id);
-    boolean updateOrder(Order order);
+    boolean updateOrderStatus(Order order);
     Optional<List<Order>> findByUser(Long userId);
     boolean finishCruises();
     boolean startCruises();
     Optional<OrderStatus> findStatusByOrderId(Long orderId);
-	Optional<List<Order>> findByStatus(OrderStatus processing);
+	Optional<List<Order>> findAvailableByStatus(OrderStatus processing);
 	Optional<Order> findByUserAndIdAndStatusNot(Long userId, Long orderId, OrderStatus status);
 	Optional<Order> findByUserAndIdAndStatus(Long userId, Long orderId, OrderStatus status);
 	Optional<Order> findByIdAndStatus(Long orderId, OrderStatus status);

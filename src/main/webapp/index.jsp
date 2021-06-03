@@ -5,39 +5,44 @@
 
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet"
-		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <jsp:include page="pages/header.jsp" />
 </head>
 <body>
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-2" >
+			<div class="col-sm-2">
 				<h2>Filter</h2>
-				<form action="/CruiseLine-Servlet/main?action=cruise_list"
+				<form action="/CruiseLine-Servlet/main?action=filter"
 					method="post">
 					<div class="form-group">
-						<label for="validationServer01">Date</label> <input type="date"
+						<label for="validationServer01">Date</label> <input type="date" 
 							name="date" class="form-control">
 					</div>
 					<div class="form-group">
-						<label for="validationServer01">To</label> <input type="text"
-							name="to" class="form-control">
+						<label for="validationServer01">Min duration</label> <input type="text"
+							name="min_duration" class="form-control">
 					</div>
 					<div class="form-group">
-						<label for="validationServer01">Form</label> <input type="text"
-							name="from" class="form-control">
+						<label for="validationServer01">Max duration</label> <input type="text"
+							name="max_duration" class="form-control">
 					</div>
+					<div class="form-group">
+						<input type="submit" value="send">
+					</div>
+
 				</form>
 			</div>
 			<div class="col-md-8">
-				<a href="/CruiseLine-Servlet/main?action=get_cruises"><h2>Crises list</h2></a>
+				<a href="/CruiseLine-Servlet/main?action=get_cruises"><h2>Crises
+						list</h2></a>
 				<table class="table">
 					<thead>
 						<tr>
@@ -52,7 +57,8 @@
 					<tbody>
 						<c:forEach var="cruise" items="${cruises}">
 							<tr>
-								<td><a href="/CruiseLine-Servlet/main?action=view_cruise&cruise_id=${cruise.id}">${cruise.name}</a></td>
+								<td><a
+									href="/CruiseLine-Servlet/main?action=view_cruise&cruise_id=${cruise.id}">${cruise.name}</a></td>
 								<td>${cruise.ship.name}</td>
 								<td>${cruise.passengersCount}</td>
 								<td>${cruise.availableCount}</td>

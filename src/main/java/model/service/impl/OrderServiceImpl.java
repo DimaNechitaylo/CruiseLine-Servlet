@@ -67,9 +67,9 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<OrderDTO> getGetOrderForVerification() {
+	public List<OrderDTO> getOrdersThatRequireProcessing() {
 		return daoFactory.getOrderDAO()
-				.findByStatus(OrderStatus.PROCESSING)
+				.findAvailableByStatus(OrderStatus.PROCESSING)
 				.orElseThrow(() -> new OrderNotFoundException("Order list not found for status "+ OrderStatus.PROCESSING))
 				.stream()
 				.map(o -> orderConverter.toDto(o))
@@ -78,7 +78,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public boolean pay(Long orderId, Long userId) {
-		return daoFactory.getOrderDAO().updateOrder(daoFactory.getOrderDAO()
+		return daoFactory.getOrderDAO().updateOrderStatus(daoFactory.getOrderDAO()
 				.findByUserAndIdAndStatus(userId, orderId, OrderStatus.WATING_PAYMENT)
 				.orElseThrow(() -> new OrderNotFoundException("Order list not found for orderId "+ orderId))
 				.pay());
@@ -86,7 +86,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public boolean reject(Long orderId, Long userId) {
-		return daoFactory.getOrderDAO().updateOrder(daoFactory.getOrderDAO()
+		return daoFactory.getOrderDAO().updateOrderStatus(daoFactory.getOrderDAO()
 				.findByIdAndStatus(orderId, OrderStatus.PROCESSING)
 				.orElseThrow(() -> new OrderNotFoundException("Order list not found for orderId "+ orderId))
 				.reject());
@@ -94,7 +94,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public boolean cancel(Long orderId, Long userId) {
-		return daoFactory.getOrderDAO().updateOrder(daoFactory.getOrderDAO()
+		return daoFactory.getOrderDAO().updateOrderStatus(daoFactory.getOrderDAO()
 				.findByUserAndIdAndStatus(userId, orderId, OrderStatus.WATING_PAYMENT)
 				.orElseThrow(() -> new OrderNotFoundException("Order list not found for orderId "+ orderId))
 				.cancel());
@@ -102,18 +102,18 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public boolean confirm(Long orderId, Long userId) {
-		return daoFactory.getOrderDAO().updateOrder(daoFactory.getOrderDAO()
+		return daoFactory.getOrderDAO().updateOrderStatus(daoFactory.getOrderDAO()
 				.findByIdAndStatus(orderId, OrderStatus.PROCESSING)
 				.orElseThrow(() -> new OrderNotFoundException("Order list not found for orderId "+ orderId))
-				.cancel());
+				.confirm());
 	}
 
 	@Override
 	public boolean start(Long orderId, Long userId) {
-		return daoFactory.getOrderDAO().updateOrder(daoFactory.getOrderDAO()
+		return daoFactory.getOrderDAO().updateOrderStatus(daoFactory.getOrderDAO()
 				.findByIdAndStatus(orderId, OrderStatus.PAID)
 				.orElseThrow(() -> new OrderNotFoundException("Order list not found for orderId "+ orderId))
-				.cancel());
+				.start());
 	}
 
 }

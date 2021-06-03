@@ -66,8 +66,8 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 		List<Cruise> cruiseList = new ArrayList<>();
 		String query = bundle.getString("cruise.findAllByStart");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
+			statement.setDate(1, Date.valueOf(start));
 			try (ResultSet resultSet = statement.executeQuery()) {
-				statement.setDate(1, Date.valueOf(start));
 				while (resultSet.next()) {
 					cruiseList.add(extractEntity(resultSet));
 				}
@@ -82,12 +82,12 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 	public Optional<List<Cruise>> findAllByStartAndFinishBetween(LocalDate start, LocalDate finish1,
 			LocalDate finish2) {
 		List<Cruise> cruiseList = new ArrayList<>();
-		String query = bundle.getString("cruise.findAllByFinishMinusStartBetween");
+		String query = bundle.getString("cruise.findAllByStartAndFinishBetween");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
+			statement.setDate(1, Date.valueOf(start));
+			statement.setDate(2, Date.valueOf(finish1));
+			statement.setDate(3, Date.valueOf(finish2));
 			try (ResultSet resultSet = statement.executeQuery()) {
-				statement.setDate(1, Date.valueOf(start));
-				statement.setDate(2, Date.valueOf(finish1));
-				statement.setDate(3, Date.valueOf(finish2));
 				while (resultSet.next()) {
 					cruiseList.add(extractEntity(resultSet));
 				}
@@ -100,13 +100,13 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 	}
 
 	@Override
-	public Optional<List<Cruise>> findAllByFinishMinusStartBetween(Long minDuration, Long maxDuration) {
+	public Optional<List<Cruise>> findAllByFinishMinusStartBetween(int minDuration, int maxDuration) {
 		List<Cruise> cruiseList = new ArrayList<>();
 		String query = bundle.getString("cruise.findAllByFinishMinusStartBetween");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
+			statement.setInt(1, minDuration);
+			statement.setInt(2, maxDuration);
 			try (ResultSet resultSet = statement.executeQuery()) {
-				statement.setLong(1, minDuration);
-				statement.setLong(2, maxDuration);
 				while (resultSet.next()) {
 					cruiseList.add(extractEntity(resultSet));
 				}
@@ -124,6 +124,7 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setLong(1, cruiseId);
 			statement.setLong(2, userId);
+			statement.setLong(3, cruiseId);
 			try (ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) {
 					cruise = extractEntity(resultSet);
@@ -140,8 +141,8 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 		List<Cruise> cruiseList = new ArrayList<>();
 		String query = bundle.getString("cruise.findUserCruisesByOrders");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
+			statement.setLong(1, userId);
 			try (ResultSet resultSet = statement.executeQuery()) {
-				statement.setLong(1, userId);
 				while (resultSet.next()) {
 					cruiseList.add(extractEntity(resultSet));
 				}
@@ -153,11 +154,11 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 	}
 
 	@Override
-	public Optional<List<Port>> getPortsById(Long id) {
+	public Optional<List<Port>> getPortsById(Long cruiseId) {
 		List<Port> portList = new ArrayList<>();
 		String query = bundle.getString("cruise.getPortsById");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
-			statement.setLong(1, id);
+			statement.setLong(1, cruiseId);
 			try (ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) { // TODO optimize
 					portList.add(daoFactory.getPortDAO().extractEntity(resultSet));
@@ -170,11 +171,11 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 	}
 
 	@Override
-	public List<User> getPassengersById(Long id) {
+	public List<User> getPassengersById(Long cruiseId) {
 		List<User> userList = new ArrayList<>();
 		String query = bundle.getString("cruise.getPassengersById");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
-			statement.setLong(1, id);
+			statement.setLong(1, cruiseId);
 			try (ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) { // TODO optimize
 					userList.add(daoFactory.getUserDAO().extractEntity(resultSet));
@@ -219,6 +220,7 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 					.start(resultSet.getDate("c.start").toLocalDate())
 					.finish(resultSet.getDate("c.finish").toLocalDate())
 					.build();
+			logger.debug("Cruise^\n"+cruise);
 		return cruise;
 	}
 

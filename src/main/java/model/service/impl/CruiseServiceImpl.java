@@ -37,17 +37,7 @@ public class CruiseServiceImpl implements CruiseService {
 	}
 
 	@Override
-	public List<CruiseDTO> filterByDate(LocalDate date) {
-		return daoFactory.getCruiseDAO()
-				.findAllByStart(date)
-				.orElseThrow(() -> new CruiseNotFoundException("Not found filterByDate cruise list"))
-				.stream()
-				.map(c -> cruiseConverter.toDto(c))
-				.collect(toList());
-	}
-
-	@Override
-	public List<CruiseDTO> filter(LocalDate start, Long minDuration, Long maxDuration) {
+	public List<CruiseDTO> getFiltredCruises(LocalDate start, int minDuration, int maxDuration) {
 		return daoFactory.getCruiseDAO()
 				.findAllByStartAndFinishBetween(start, start.plusDays(minDuration), start.plusDays(maxDuration))
 				.orElseThrow(() -> new CruiseNotFoundException("Not found findAllByStartAndFinishBetween cruise list"))
@@ -57,7 +47,7 @@ public class CruiseServiceImpl implements CruiseService {
 	}
 
 	@Override
-	public List<CruiseDTO> filter(Long minDuration, Long maxDuration) {
+	public List<CruiseDTO> getFiltredCruises(int minDuration, int maxDuration) {
 		return daoFactory.getCruiseDAO()
 				.findAllByFinishMinusStartBetween(minDuration, maxDuration)
 				.orElseThrow(() -> new CruiseNotFoundException("Not found findAllByFinishMinusStartBetween cruise list"))

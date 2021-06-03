@@ -3,7 +3,7 @@ package model.dao.impl;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +14,6 @@ import model.dao.OrderDAO;
 import model.entity.Cruise;
 import model.entity.Order;
 import model.entity.OrderStatus;
-import model.entity.Role;
 import model.entity.Ship;
 import model.entity.User;
 
@@ -64,14 +63,18 @@ public class OrderDAOImpl extends DBRepository implements OrderDAO {
 			statement.setString(1, order.getStatus().toString());
 			statement.setLong(2, order.getUser().getId());
 			statement.setLong(3, order.getCruise().getId());
+			logger.debug("statement.executeUpdate()");
 			if(statement.executeUpdate() > 0) {
+				logger.debug("statement.executeUpdate()");
 				return true;
 			}
+			logger.debug("false");
 			return false;
 		} catch (SQLException e) {
 			logger.error("SQLException in addOrder(Order order)" + e);
 			return false;
 		}
+
 	}
 
 	@Override
@@ -81,12 +84,12 @@ public class OrderDAOImpl extends DBRepository implements OrderDAO {
 	}
 
 	@Override
-	public boolean updateOrder(Order order) {
-		String query = bundle.getString("order.updateOrder");
+	public boolean updateOrderStatus(Order order) {
+		System.out.println(order);
+		String query = bundle.getString("order.updateOrderStatus");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setString(1, order.getStatus().toString());
-			statement.setLong(2, order.getUser().getId());
-			statement.setLong(3, order.getCruise().getId());
+			statement.setLong(2, order.getId());
 			if(statement.executeUpdate() > 0) {
 				return true;
 			}
@@ -149,12 +152,12 @@ public class OrderDAOImpl extends DBRepository implements OrderDAO {
 	}
 
 	@Override
-	public Optional<List<Order>> findByStatus(OrderStatus processing) {
-		List<Order> orderList = Arrays.asList();
-		String query = bundle.getString("order.findByStatus");
+	public Optional<List<Order>> findAvailableByStatus(OrderStatus processing) {
+		List<Order> orderList = new ArrayList<Order>();
+		String query = bundle.getString("order.findAvailableByStatus");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
+			statement.setString(1, processing.toString());
 			try (ResultSet resultSet = statement.executeQuery()) {
-				statement.setString(1, processing.toString());
 				while (resultSet.next()) {
 					orderList.add(extractEntity(resultSet));
 				}
@@ -228,18 +231,19 @@ public class OrderDAOImpl extends DBRepository implements OrderDAO {
 
 	@Override
 	public Optional<List<Order>> findByUser(Long userId) {
-		List<Order> orderList = Arrays.asList();
+		List<Order> orderList = new ArrayList<Order>();
 		String query = bundle.getString("order.findByUser");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
+			statement.setLong(1, userId);
 			try (ResultSet resultSet = statement.executeQuery()) {
-				statement.setLong(1, userId);
 				while (resultSet.next()) {
 					orderList.add(extractEntity(resultSet));
 				}
 			}
 		} catch (SQLException e) {
-			logger.error("SQLException in findByUser(User user)");
+			logger.error("SQLException in findByUser(User user)" + e);
 		}
+		logger.debug(orderList);
 		return Optional.ofNullable(orderList);
 	}
 

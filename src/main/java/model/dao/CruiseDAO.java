@@ -18,7 +18,7 @@ public interface CruiseDAO {
     Optional<List<Cruise>> getAvailableCruises();
     Optional<List<Cruise>> findAllByStart(LocalDate start);
 	Optional<List<Cruise>> findAllByStartAndFinishBetween(LocalDate start, LocalDate finish1,  LocalDate finish2);
-	Optional<List<Cruise>> findAllByFinishMinusStartBetween(Long minDuration,  Long maxDuration);
+	Optional<List<Cruise>> findAllByFinishMinusStartBetween(int minDuration,  int maxDuration);
 	Optional<Cruise> findByIdNotBookined(Long cruiseId, Long userId);
 	Optional<List<Cruise>> findUserCruisesByOrders(Long userId);
     Optional<List<Port>> getPortsById(Long id);

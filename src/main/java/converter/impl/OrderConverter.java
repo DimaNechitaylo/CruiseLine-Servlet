@@ -23,25 +23,19 @@ public class OrderConverter implements Mapper<Order, OrderDTO>{
 
 	@Override
     public OrderDTO toDto(Order order) {
-		logger.debug("START toDto(Order order) //"); 
-		OrderDTO o = OrderDTO.builder()
-        		.userId(order.getUser().getId())
+		return OrderDTO.builder()
+				.id(order.getId())
+        		.userId(userConverter.toDto(order.getUser()))
         		.cruiseDto(cruiseConverter.toDto(order.getCruise()))
         		.status(order.getStatus())
         		.build();
-		logger.debug("FINISH toDto(Order order) "); 
-		return o;
-//        return OrderDTO.builder()
-//        		.userId(order.getUser().getId())
-//        		.cruiseDto(cruiseConverter.toDto(order.getCruise()))
-//        		.status(order.getStatus())
-//        		.build();
     }
 
     @Override
     public Order toEntity(OrderDTO OrderDTO) {
         return Order.builder()
-        		.user(userConverter.toEntity(userService.getUser(OrderDTO.getUserId())))
+        		.id(OrderDTO.getId())
+        		.user(userConverter.toEntity(OrderDTO.getUserDto()))
         		.cruise(cruiseConverter.toEntity(OrderDTO.getCruiseDto()))
         		.status(OrderDTO.getStatus())
         		.build();
