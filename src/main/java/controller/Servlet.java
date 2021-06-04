@@ -56,7 +56,6 @@ public class Servlet extends HttpServlet {
         	return;
         }
         String path = commandCaller.call(command.toUpperCase()).execute(request);
-        logger.debug(request.getSession().getAttribute("username"));
         if(path.contains("redirect:")){
             response.sendRedirect(path.replace("redirect:", "/"));
         }else {

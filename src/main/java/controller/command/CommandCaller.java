@@ -3,6 +3,9 @@ package controller.command;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
+import controller.Servlet;
 import controller.command.impl.GetCruisesCommand;
 import controller.command.impl.GetFiltredCruisesCommand;
 import controller.command.impl.GetOrdersThatRequireProcessing;
@@ -15,6 +18,7 @@ import controller.command.impl.SignUpCommand;
 import controller.command.impl.ViewCruiseCommand;
 
 public class CommandCaller {
+    private static Logger logger = Logger.getLogger(CommandCaller.class.getName());
     private final Map<String, Command> commands = new HashMap<String, Command>();
 
     public CommandCaller() {
@@ -31,6 +35,7 @@ public class CommandCaller {
     }
 
     public Command call(String commandName) {
+    	logger.debug("call^ " + commandName);
         return commands.get(commandName.toUpperCase());
     }
 }

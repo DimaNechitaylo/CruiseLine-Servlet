@@ -11,52 +11,42 @@ import model.service.UserService;
 import util.PasswordEncoder;
 import util.exception.UserNotFoundException;
 
-public class UserServiceImpl implements UserService{
-    private static Logger logger = Logger.getLogger(UserServiceImpl.class.getName());
+public class UserServiceImpl implements UserService {
+	private static Logger logger = Logger.getLogger(UserServiceImpl.class.getName());
 
 	private final UserConverter userConverter;
-    private final DAOFactory daoFactory;
+	private final DAOFactory daoFactory;
 
-	public UserServiceImpl() { 
+	public UserServiceImpl() {
 		daoFactory = new DAOFactoryImpl();
 		userConverter = new UserConverter();
-    }
-	
-	@Override
-	public UserDTO getUser(Long id) {
-		return daoFactory.getUserDAO()
-				.getUser(id)
-				.map(userConverter::toDto)
-				.orElse(UserDTO.builder().build());
-	}
-	
-	@Override
-	public UserDTO getUser(String username) {
-		return daoFactory.getUserDAO()
-				.getUser(username)
-				.map(userConverter::toDto)
-				.orElse(UserDTO.builder().build());
 	}
 
 	@Override
-	public UserDTO signUp(UserDTO userDTO) {
-		userDTO.setPassword(PasswordEncoder.generatePasswordHash(userDTO.getPassword()));
-		return userConverter.toDto(
-				daoFactory.getUserDAO()
-				.getUser(daoFactory.getUserDAO()
-						.addUser(userConverter.toEntity(userDTO)))
-						.get()
-				);
+	public UserDTO getUser(Long id) {
+		return daoFactory.getUserDAO().getUser(id).map(userConverter::toDto).orElse(UserDTO.builder().build());
+	}
+
+	@Override
+	public UserDTO getUser(String username) {
+		return daoFactory.getUserDAO().getUser(username).map(userConverter::toDto).orElse(UserDTO.builder().build());
+	}
+
+	@Override
+	public boolean signUp(UserDTO userDTO) {
+		userDTO.setPassword(PasswordEncoder.encoge(userDTO.getPassword()));
+		return daoFactory.getUserDAO().addUser(userConverter.toEntity(userDTO));
 	}
 
 	@Override
 	public UserDTO signIn(String username, String password) throws UserNotFoundException {
 		User user = daoFactory.getUserDAO().getUser(username)
 				.orElseThrow(() -> new UserNotFoundException("User not found with username -" + username));
-		if(!PasswordEncoder.validatePassword(password, user.getPassword())) {
-			throw new UserNotFoundException(username + " (id:"+user.getId()+") entered the wrong password");
+		logger.debug(user);
+		if (!PasswordEncoder.validatePassword(password, user.getPassword())) {
+			throw new UserNotFoundException(username + " (id:" + user.getId() + ") entered the wrong password");
 		}
 		return userConverter.toDto(user);
 	}
-	
+
 }

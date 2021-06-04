@@ -6,7 +6,6 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import controller.command.Command;
-import model.dao.impl.UserDAOImpl;
 import model.dto.UserDTO;
 import model.service.UserService;
 import model.service.impl.UserServiceImpl;
@@ -25,12 +24,18 @@ public class SignInCommand implements Command {
 	public String execute(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		try {
+			logger.debug(request.getParameter("username"));
+			logger.debug(request.getParameter("password"));
+
 			UserDTO userDTO = userService.signIn(request.getParameter("username"), 
 					request.getParameter("password"));
 			session.setAttribute("user", userDTO);
 		} catch (UserNotFoundException e) {
 			logger.info(e);
+			session.setAttribute("wrong_credential", "wrong_credential");
+			return "redirect:CruiseLine-Servlet/pages/signin";
 		}
+		session.removeAttribute("wrong_credential");
 		return "redirect:CruiseLine-Servlet";
 	}
 

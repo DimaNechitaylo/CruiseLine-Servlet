@@ -63,12 +63,9 @@ public class OrderDAOImpl extends DBRepository implements OrderDAO {
 			statement.setString(1, order.getStatus().toString());
 			statement.setLong(2, order.getUser().getId());
 			statement.setLong(3, order.getCruise().getId());
-			logger.debug("statement.executeUpdate()");
 			if(statement.executeUpdate() > 0) {
-				logger.debug("statement.executeUpdate()");
 				return true;
 			}
-			logger.debug("false");
 			return false;
 		} catch (SQLException e) {
 			logger.error("SQLException in addOrder(Order order)" + e);

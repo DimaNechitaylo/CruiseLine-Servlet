@@ -57,4 +57,15 @@ public class User {
             return User.this;
         }
 	}
+	
+	@Override
+	public String toString() {
+		return "User {" + 
+				"    id: " + id + " ,\n" +
+				"    name: " + username + " ,\n" +
+				"    passengerСapacity: " + password +
+				"    passengerСapacity: " + role +
+
+				"}";
+	}
 }

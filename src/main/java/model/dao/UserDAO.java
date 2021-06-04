@@ -9,7 +9,7 @@ import model.entity.User;
 public interface UserDAO {
 	Optional<User> getUser(Long id);
 	Optional<User> getUser(String username);
-	Long addUser(User user);
+	boolean addUser(User user);
 	boolean deleteUser(Long id);
     boolean updateUser(User user);
     boolean existsUserWithSuchLogin(String login);

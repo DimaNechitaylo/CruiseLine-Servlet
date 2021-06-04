@@ -20,19 +20,23 @@
 		<div class="row">
 			<div class="col-sm-2">
 				<h2>Filter</h2>
-				<form action="/CruiseLine-Servlet/main?action=filter"
-					method="post">
+				<form action="/CruiseLine-Servlet/main?action=filter" method="post">
 					<div class="form-group">
-						<label for="validationServer01">Date</label> <input type="date" 
+						<label for="validationServer01">Date</label> <input type="date"
 							name="date" class="form-control">
 					</div>
 					<div class="form-group">
-						<label for="validationServer01">Min duration</label> <input type="text"
-							name="min_duration" class="form-control">
+						<label for="validationServer01">Min duration</label> <input
+							type="text" name="min_duration" class="form-control">
 					</div>
 					<div class="form-group">
-						<label for="validationServer01">Max duration</label> <input type="text"
-							name="max_duration" class="form-control">
+						<label for="validationServer01">Max duration</label> <input
+							type="text" name="max_duration" class="form-control">
+					</div>
+					<div>
+						<c:if test="${not empty invalid_duration}">
+			     			${invalid_duration}
+			    		</c:if>
 					</div>
 					<div class="form-group">
 						<input type="submit" value="send">
