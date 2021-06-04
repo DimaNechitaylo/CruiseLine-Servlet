@@ -11,9 +11,6 @@
 <jsp:include page="header.jsp" />
 </head>
 <body>
-	Profile
-	<c:out value="${user.username}" />
-
 	<a href="/CruiseLine-Servlet/main?action=user_orders">Yours orders:
 	</a>
 	<table class="table">
@@ -31,7 +28,7 @@
 					<td>${userOrder.status}</td>
 					<td><c:choose>
 							<c:when test="${userOrder == null}">
-								<form action="/CruiseLine-Servlet/main?action=order_operation"
+								<form action="/CruiseLine-Servlet/main?action=order_user_operation&order_id=${userOrder.id}"
 									method="post">
 									<button type="submit" value="submit" name="operation"
 										class="btn btn-primary">RequestAnOrder</button>
@@ -42,7 +39,7 @@
 								<label>Wait for confirmation</label>
 							</c:when>
 							<c:when test="${userOrder.status == 'WATING_PAYMENT'}">
-								<form action="/CruiseLine-Servlet/main?action=order_operation"
+								<form action="/CruiseLine-Servlet/main?action=order_user_operation&order_id=${userOrder.id}"
 									method="post">
 									<button type="submit" value="pay" name="operation"
 										class="btn btn-primary">Pay</button>

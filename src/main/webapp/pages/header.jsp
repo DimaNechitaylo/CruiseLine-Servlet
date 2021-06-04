@@ -16,7 +16,7 @@
 		<c:when test="${user != null}">
 			<a href="/CruiseLine-Servlet/main?action=logout">logout</a>
 			<a href="/CruiseLine-Servlet/main?action=profile"><h2>
-					<c:out value="${user.username} ${user.id}" />
+					Profile: <c:out value="${user.username} ${user.id}" />
 				</h2></a>
 			<c:if test="${user.role == 'ADMIN'}">
 				<a href="/CruiseLine-Servlet/pages/admin.jsp">admin</a>

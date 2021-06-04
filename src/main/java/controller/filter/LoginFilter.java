@@ -50,12 +50,8 @@ public class LoginFilter implements Filter {
 			}
 		}
 		if (loggedIn || safePages || tryingToEnter) {
-			logger.debug(request.getParameter("action"));
-			logger.debug("else"+loggedIn+safePages+tryingToEnter+"   "+"signup".equalsIgnoreCase(request.getParameter("action")));
 			filterChain.doFilter(request, response);
 		} else {
-			logger.debug(request.getParameter("action"));
-			logger.debug("else"+loggedIn+safePages+tryingToEnter+"   "+"signup".equalsIgnoreCase(request.getParameter("action")));
 			response.sendRedirect(request.getContextPath() + "/pages/signin.jsp");
 		}
 

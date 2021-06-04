@@ -24,6 +24,7 @@
 			<tr>
 				<th scope="col">Username</th>
 				<th scope="col">User id</th>
+				<th scope="col">Cruise name</th>
 				<th scope="col">PassengersCount</th>
 				<th scope="col">AvailableCount</th>
 				<th scope="col">Start</th>
@@ -36,6 +37,7 @@
 				<tr>
 					<td>${order.userDto.username}</td>
 					<td>${order.userDto.id}</td>
+					<td>${order.cruiseDto.name}</td>
 					<td>${order.cruiseDto.passengersCount}</td>
 					<td>${order.cruiseDto.availableCount}</td>
 					<td>${order.cruiseDto.start}</td>

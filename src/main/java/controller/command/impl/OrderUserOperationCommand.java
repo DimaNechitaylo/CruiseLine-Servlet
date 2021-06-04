@@ -2,12 +2,17 @@ package controller.command.impl;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
+
 import controller.command.Command;
+import controller.command.CommandCaller;
 import model.dto.UserDTO;
 import model.service.OrderService;
 import model.service.impl.OrderServiceImpl;
 
 public class OrderUserOperationCommand implements Command {
+    private static Logger logger = Logger.getLogger(OrderUserOperationCommand.class.getName());
+
 	private OrderService orderService;
 
 	public OrderUserOperationCommand() {
@@ -16,6 +21,7 @@ public class OrderUserOperationCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request) {
+		logger.debug(request.getParameter("order_id"));
 		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
 		if (request.getParameter("cruise_id") != null && request.getParameter("operation").equals("submit")) {
 			String cruiseIdString = request.getParameter("cruise_id");
@@ -34,8 +40,7 @@ public class OrderUserOperationCommand implements Command {
 				orderService.cancel(orderId, user.getId());
 			}
 		}
-
-		return "redirect:CruiseLine-Servlet/pages/view-cruise.jsp";
+		return "redirect:CruiseLine-Servlet/pages/profile.jsp";
 	}
 
 }

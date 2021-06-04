@@ -55,6 +55,7 @@ public class Servlet extends HttpServlet {
         	response.sendRedirect("/CruiseLine-Servlet/index.jsp");
         	return;
         }
+        logger.info(request.getRequestURL());
         String path = commandCaller.call(command.toUpperCase()).execute(request);
         if(path.contains("redirect:")){
             response.sendRedirect(path.replace("redirect:", "/"));

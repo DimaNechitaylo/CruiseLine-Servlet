@@ -13,7 +13,7 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <jsp:include page="header.jsp" />
-<c:set var="order_operation_request">/CruiseLine-Servlet/main?action=order_user_operation&cruise_id=${cruise.id}</c:set>
+<c:set var="order_operation_request">/CruiseLine-Servlet/main?action=order_user_operation&cruise_id=${cruise.id}&order_id=${order.id}</c:set>
 </head>
 
 <title>Insert title here</title>
