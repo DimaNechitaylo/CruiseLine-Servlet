@@ -1,22 +1,40 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<fmt:setLocale value="${lang}" />
+<fmt:setBundle basename="locale" var="locale" scope="session" />
 
 <!DOCTYPE html>
 <html>
 <head>
-
-<meta charset="ISO-8859-1">
-<title>HOME</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="webapp/style/style.css">
 <jsp:include page="header.jsp" />
 </head>
 <body>
-	<a href="/CruiseLine-Servlet/main?action=user_orders">Yours orders:
-	</a>
+	<a href="/CruiseLine-Servlet/main?action=user_orders"><fmt:message
+			key="profile.orders.title" bundle="${locale}" /> </a>
 	<table class="table">
 		<thead>
 			<tr>
-				<th scope="col">name</th>
+				<th scope="col"><fmt:message key="profile.orders.table.name"
+						bundle="${locale}" /></th>
+				<th scope="col"><fmt:message key="profile.orders.table.start"
+						bundle="${locale}" /></th>
+				<th scope="col"><fmt:message key="profile.orders.table.finish"
+						bundle="${locale}" /></th>
+				<th scope="col"><fmt:message key="profile.orders.table.status"
+						bundle="${locale}" /></th>
+
 			</tr>
 		</thead>
 		<tbody>
@@ -25,10 +43,10 @@
 					<td>${userOrder.cruiseDto.name}</td>
 					<td>${userOrder.cruiseDto.start}</td>
 					<td>${userOrder.cruiseDto.finish}</td>
-					<td>${userOrder.status}</td>
 					<td><c:choose>
 							<c:when test="${userOrder == null}">
-								<form action="/CruiseLine-Servlet/main?action=order_user_operation&order_id=${userOrder.id}"
+								<form
+									action="/CruiseLine-Servlet/main?action=order_user_operation&order_id=${userOrder.id}"
 									method="post">
 									<button type="submit" value="submit" name="operation"
 										class="btn btn-primary">RequestAnOrder</button>
@@ -36,20 +54,45 @@
 								</form>
 							</c:when>
 							<c:when test="${userOrder.status == 'PROCESSING'}">
-								<label>Wait for confirmation</label>
+								<label><fmt:message key="order.status.processing"
+										bundle="${locale}" /></label>
 							</c:when>
 							<c:when test="${userOrder.status == 'WATING_PAYMENT'}">
-								<form action="/CruiseLine-Servlet/main?action=order_user_operation&order_id=${userOrder.id}"
+								<fmt:message key="order.status.waiting_payment"
+									bundle="${locale}" />
+								<form
+									action="/CruiseLine-Servlet/main?action=order_user_operation&order_id=${userOrder.id}"
 									method="post">
 									<button type="submit" value="pay" name="operation"
-										class="btn btn-primary">Pay</button>
+										class="btn btn-primary">
+										<fmt:message key="order.operation.pay" bundle="${locale}" />
+									</button>
 									<button type="submit" value="cancel" name="operation"
-										class="btn btn-primary">Cancel</button>
+										class="btn btn-primary">
+										<fmt:message key="order.operation.cancel" bundle="${locale}" />
+									</button>
 								</form>
 							</c:when>
-							<c:otherwise>
-								<c:out value="${userOrder.status}" />
-							</c:otherwise>
+							<c:when test="${userOrder.status == 'PAID'}">
+								<label><fmt:message key="order.status.paid"
+										bundle="${locale}" /></label>
+							</c:when>
+							<c:when test="${userOrder.status == 'CANCELED'}">
+								<label><fmt:message key="order.status.canceled"
+										bundle="${locale}" /></label>
+							</c:when>
+							<c:when test="${userOrder.status == 'REJECTED'}">
+								<label><fmt:message key="order.status.rejected"
+										bundle="${locale}" /></label>
+							</c:when>
+							<c:when test="${userOrder.status == 'STARTED'}">
+								<label><fmt:message key="order.status.started"
+										bundle="${locale}" /></label>
+							</c:when>
+							<c:when test="${userOrder.status == 'FINISHED'}">
+								<label><fmt:message key="order.status.finished"
+										bundle="${locale}" /></label>
+							</c:when>
 						</c:choose>
 					<td>
 				</tr>

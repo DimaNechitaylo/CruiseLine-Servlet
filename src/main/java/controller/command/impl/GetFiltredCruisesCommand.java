@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 
 import controller.command.Command;
-import controller.command.CommandProperties;
 import model.dto.CruiseDTO;
 import model.service.CruiseService;
 import model.service.impl.CruiseServiceImpl;
+import util.ResourceManager;
 
 public class GetFiltredCruisesCommand implements Command {
 	private static Logger logger = Logger.getLogger(GetFiltredCruisesCommand.class.getName());
@@ -29,14 +29,14 @@ public class GetFiltredCruisesCommand implements Command {
 		String date = (String) request.getParameter("date");
 		String min = (String) request.getParameter("min_duration");
 		String max = (String) request.getParameter("max_duration");
-		logger.debug(min+"  "+Pattern.compile(CommandProperties.bundle.getString("filter.min_duration")).matcher(max).find());
-		logger.debug(max+"  "+Pattern.compile(CommandProperties.bundle.getString("filter.max_duration")).matcher(max).find());
+		logger.debug(min+"  "+Pattern.compile(ResourceManager.getInstance().getRegularExpressionBundle().getString("filter.min_duration")).matcher(max).find());
+		logger.debug(max+"  "+Pattern.compile(ResourceManager.getInstance().getRegularExpressionBundle().getString("filter.max_duration")).matcher(max).find());
 
 		
 		
 		
-		if(!Pattern.compile(CommandProperties.bundle.getString("filter.min_duration")).matcher(min).find()
-				|| !Pattern.compile(CommandProperties.bundle.getString("filter.max_duration")).matcher(max).find()) {
+		if(!Pattern.compile(ResourceManager.getInstance().getRegularExpressionBundle().getString("filter.min_duration")).matcher(min).find()
+				|| !Pattern.compile(ResourceManager.getInstance().getRegularExpressionBundle().getString("filter.max_duration")).matcher(max).find()) {
 			request.getSession().setAttribute("invalid_duration", "invalid duration");
 			return "redirect:CruiseLine-Servlet";
 		}

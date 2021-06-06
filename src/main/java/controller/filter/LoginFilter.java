@@ -37,7 +37,8 @@ public class LoginFilter implements Filter {
 				|| "signup".equalsIgnoreCase(request.getParameter("action"))
 				|| "get_cruises".equalsIgnoreCase(request.getParameter("action"))
 				|| "view_cruise".equalsIgnoreCase(request.getParameter("action"))
-				|| "filter".equalsIgnoreCase(request.getParameter("action"));
+				|| "filter".equalsIgnoreCase(request.getParameter("action"))
+				|| "change_lang".equalsIgnoreCase(request.getParameter("action"));
 
 		if (loggedIn) {
 			UserDTO user = (UserDTO) request.getSession().getAttribute("user");

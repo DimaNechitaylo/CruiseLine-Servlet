@@ -3,33 +3,27 @@ package converter.impl;
 import org.apache.log4j.Logger;
 
 import converter.Mapper;
+import model.dto.PassengerDTO;
 import model.dto.UserDTO;
 import model.entity.User;
+
 public class UserConverter implements Mapper<User, UserDTO> {
-    private static Logger logger = Logger.getLogger(UserConverter.class.getName());
+	private static Logger logger = Logger.getLogger(UserConverter.class.getName());
 
 	@Override
-    public UserDTO toDto(User user) {
-		logger.debug("UsertoDto");
-        UserDTO userDTO =  UserDTO.builder()
-        		.id(user.getId())
-        		.username(user.getUsername())
-        		.password(user.getPassword())
-        		.role(user.getRole())
-        		.build();
-        return userDTO;
-    }
+	public UserDTO toDto(User user) {
+		return UserDTO.builder().id(user.getId()).username(user.getUsername()).password(user.getPassword())
+				.role(user.getRole()).build();
+	}
 
-    @Override
-    public User toEntity(UserDTO userDTO) {
-		logger.debug("UserDTOtoEntity");
-        User user =  User.builder()
-        		.id(userDTO.getId())
-        		.username(userDTO.getUsername())
-        		.password(userDTO.getPassword())
-        		.role(userDTO.getRole())
-        		.build();       
-        return user;
-    }
-	
+	@Override
+	public User toEntity(UserDTO userDTO) {
+		return User.builder().id(userDTO.getId()).username(userDTO.getUsername()).password(userDTO.getPassword())
+		.role(userDTO.getRole()).build();
+	}
+
+	public PassengerDTO toPassengerDto(User user) {
+		return PassengerDTO.builder().id(user.getId()).username(user.getUsername()).build();
+	}
+
 }

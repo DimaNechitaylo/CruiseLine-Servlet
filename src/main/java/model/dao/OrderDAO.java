@@ -19,6 +19,7 @@ public interface OrderDAO {
     boolean finishCruises();
     boolean startCruises();
     Optional<OrderStatus> findStatusByOrderId(Long orderId);
+	Optional<List<Order>> findByStatus(OrderStatus processing);
 	Optional<List<Order>> findAvailableByStatus(OrderStatus processing);
 	Optional<Order> findByUserAndIdAndStatusNot(Long userId, Long orderId, OrderStatus status);
 	Optional<Order> findByUserAndIdAndStatus(Long userId, Long orderId, OrderStatus status);

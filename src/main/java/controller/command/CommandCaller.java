@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import controller.Servlet;
+import controller.command.impl.ChangeLangCommand;
 import controller.command.impl.GetCruisesCommand;
 import controller.command.impl.GetFiltredCruisesCommand;
 import controller.command.impl.GetOrdersThatRequireProcessing;
@@ -34,10 +35,11 @@ public class CommandCaller {
         commands.put("ORDER_USER_OPERATION", new OrderUserOperationCommand());
         commands.put("ORDER_ADMIN_OPERATION", new OrderAdminOperationCommand());
         commands.put("GET_ORDERS_THAT_REQUIRE_PROCESSING", new GetOrdersThatRequireProcessing());
+        commands.put("CHANGE_LANG", new ChangeLangCommand());
     }
 
     public Command call(String commandName) {
-    	logger.debug("call^ " + commandName);
+    	logger.debug("call: " + commandName);
         return commands.get(commandName.toUpperCase());
     }
 }

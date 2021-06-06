@@ -1,7 +1,11 @@
-<!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/fmt" prefix = "fmt" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<fmt:setLocale value="${lang}" />
+<fmt:setBundle basename="locale" var="locale" scope="session" />
+
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
@@ -12,31 +16,28 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="webapp/style/style.css">
 <jsp:include page="header.jsp" />
 </head>
 <body>
-	<h1>Admin page</h1>
 	<a
-		href="/CruiseLine-Servlet/main?action=get_orders_that_require_processing">orders_that_require_processing</a>
+		href="/CruiseLine-Servlet/main?action=get_orders_that_require_processing"><fmt:message key="admin.orders_that_require_processing.title" bundle="${locale}" /></a>
 	</td>
 	<table class="table">
 		<thead>
 			<tr>
-				<th scope="col">Username</th>
-				<th scope="col">User id</th>
-				<th scope="col">Cruise name</th>
-				<th scope="col">PassengersCount</th>
-				<th scope="col">AvailableCount</th>
-				<th scope="col">Start</th>
-				<th scope="col">Finish</th>
-				<th scope="col">Operation</th>
+				<th scope="col"><fmt:message key="admin.orders_that_require_processing.table.username" bundle="${locale}" /></th>
+				<th scope="col"><fmt:message key="admin.orders_that_require_processing.table.cruisename" bundle="${locale}" /></th>
+				<th scope="col"><fmt:message key="admin.orders_that_require_processing.table.passengerscount" bundle="${locale}" /></th>
+				<th scope="col"><fmt:message key="admin.orders_that_require_processing.table.availablecount" bundle="${locale}" /></th>
+				<th scope="col"><fmt:message key="admin.orders_that_require_processing.table.start" bundle="${locale}" /></th>
+				<th scope="col"><fmt:message key="admin.orders_that_require_processing.table.finish" bundle="${locale}" /></th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="order" items="${orders_that_require_processing}">
 				<tr>
 					<td>${order.userDto.username}</td>
-					<td>${order.userDto.id}</td>
 					<td>${order.cruiseDto.name}</td>
 					<td>${order.cruiseDto.passengersCount}</td>
 					<td>${order.cruiseDto.availableCount}</td>
@@ -47,9 +48,9 @@
 								<form action="/CruiseLine-Servlet/main?action=order_admin_operation&order_id=${order.id}"
 									method="post">
 									<button type="submit" value="confirm" name="operation"
-										class="btn btn-primary">Confirm</button>
+										class="btn btn-primary"><fmt:message key="order.operation.confirm" bundle="${locale}" /></button>
 									<button type="submit" value="reject" name="operation"
-										class="btn btn-primary">Reject</button>
+										class="btn btn-primary"><fmt:message key="order.operation.reject" bundle="${locale}" /></button>
 								</form>
 							</c:when>
 							<c:otherwise>

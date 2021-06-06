@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import model.dao.DBRepository;
 import model.dao.UserDAO;
+import model.dto.PassengerDTO;
 import model.entity.Role;
 import model.entity.User;
 import util.exception.UserAlreadyExistsException;
@@ -64,7 +65,7 @@ public class UserDAOImpl extends DBRepository implements UserDAO {
 			}
 			return false;
 		} catch (SQLIntegrityConstraintViolationException e) {
-			throw new UserAlreadyExistsException("User with username: " + user.getUsername()+" alredy exist");
+			throw new UserAlreadyExistsException("User with username: " + user.getUsername() + " alredy exist");
 		} catch (SQLException e) {
 			logger.error("SQLException in addUser(User user) " + e);
 			return false;
@@ -88,12 +89,13 @@ public class UserDAOImpl extends DBRepository implements UserDAO {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	@Override
 	public User extractEntity(ResultSet resultSet) throws SQLException {
-		User user = null;
-		user = User.builder().id(resultSet.getLong("id")).username(resultSet.getString("username"))
+		return User.builder().id(resultSet.getLong("id")).username(resultSet.getString("username"))
 				.password(resultSet.getString("password")).role(Role.valueOf(resultSet.getString("r.name"))).build();
-		return user;
 	}
-
+	@Override
+	public PassengerDTO extractPassenger(ResultSet resultSet) throws SQLException {
+		return PassengerDTO.builder().id(resultSet.getLong("id")).username(resultSet.getString("username")).build();
+	}
 }

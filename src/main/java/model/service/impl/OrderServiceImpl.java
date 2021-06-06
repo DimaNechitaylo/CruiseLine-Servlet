@@ -69,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<OrderDTO> getOrdersThatRequireProcessing() {
 		return daoFactory.getOrderDAO()
-				.findAvailableByStatus(OrderStatus.PROCESSING)
+				.findByStatus(OrderStatus.PROCESSING)
 				.orElseThrow(() -> new OrderNotFoundException("Order list not found for status "+ OrderStatus.PROCESSING))
 				.stream()
 				.map(o -> orderConverter.toDto(o))

@@ -6,9 +6,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import model.dto.PassengerDTO;
 import model.entity.Cruise;
 import model.entity.Port;
-import model.entity.User;
 
 public interface CruiseDAO {
 	Optional<Cruise> getCruise(Long id);
@@ -22,6 +22,6 @@ public interface CruiseDAO {
 	Optional<Cruise> findByIdNotBookined(Long cruiseId, Long userId);
 	Optional<List<Cruise>> findUserCruisesByOrders(Long userId);
     Optional<List<Port>> getPortsById(Long id);
-    List<User> getPassengersById(Long id);
+    List<PassengerDTO> getPassengersById(Long id);
     public Cruise extractEntity(ResultSet resultSet) throws SQLException;
 }

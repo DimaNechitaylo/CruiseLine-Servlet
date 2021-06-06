@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,11 +14,10 @@ import org.apache.log4j.Logger;
 import model.dao.CruiseDAO;
 import model.dao.DAOFactory;
 import model.dao.DBRepository;
+import model.dto.PassengerDTO;
 import model.entity.Cruise;
-import model.entity.Order;
 import model.entity.Port;
 import model.entity.Ship;
-import model.entity.User;
 import util.exception.PortNotFoundException;
 
 public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
@@ -171,20 +169,20 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 	}
 
 	@Override
-	public List<User> getPassengersById(Long cruiseId) {
-		List<User> userList = new ArrayList<>();
+	public List<PassengerDTO> getPassengersById(Long cruiseId) {
+		List<PassengerDTO> passengerList = new ArrayList<>();
 		String query = bundle.getString("cruise.getPassengersById");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setLong(1, cruiseId);
 			try (ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) { // TODO optimize
-					userList.add(daoFactory.getUserDAO().extractEntity(resultSet));
+					passengerList.add(daoFactory.getUserDAO().extractPassenger(resultSet));
 				}
 			}
 		} catch (SQLException e) {
 			logger.error("SQLException in getPassengersById(int id)" + e);
 		}
-		return userList;
+		return passengerList;
 	}
 
 	@Override

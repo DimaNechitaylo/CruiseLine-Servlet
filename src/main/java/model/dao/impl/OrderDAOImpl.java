@@ -166,6 +166,23 @@ public class OrderDAOImpl extends DBRepository implements OrderDAO {
 	}
 	
 	@Override
+	public Optional<List<Order>> findByStatus(OrderStatus processing) {
+		List<Order> orderList = new ArrayList<Order>();
+		String query = bundle.getString("order.findByStatus");
+		try (PreparedStatement statement = connection.prepareStatement(query)) {
+			statement.setString(1, processing.toString());
+			try (ResultSet resultSet = statement.executeQuery()) {
+				while (resultSet.next()) {
+					orderList.add(extractEntity(resultSet));
+				}
+			}
+		} catch (SQLException e) {
+			logger.error("SQLException in findByStatus(OrderStatus processing)" + e);
+		}
+		return Optional.ofNullable(orderList);
+	}
+	
+	@Override
 	public Optional<Order> findByUserAndIdAndStatusNot(Long userId, Long orderId, OrderStatus status) {
 		Order order = Order.builder().build();
 		String query = bundle.getString("order.findByUserAndIdAndStatusNot");
