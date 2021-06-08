@@ -15,10 +15,13 @@ public interface CruiseDAO {
 	boolean addCruise(Cruise user);
 	boolean deleteCruise(Long id);
     boolean updateCruise(Cruise user);
-    Optional<List<Cruise>> getAvailableCruises();
-    Optional<List<Cruise>> findAllByStart(LocalDate start);
-	Optional<List<Cruise>> findAllByStartAndFinishBetween(LocalDate start, LocalDate finish1,  LocalDate finish2);
-	Optional<List<Cruise>> findAllByFinishMinusStartBetween(int minDuration,  int maxDuration);
+    Optional<List<Cruise>> getAvailableCruises(int start, int total);
+    Long getAvailableCruisesCount();
+    Optional<List<Cruise>> findAllByStart(LocalDate start, int startRow, int total);
+	Optional<List<Cruise>> findAllByStartAndFinishBetween(LocalDate start, LocalDate finish1,  LocalDate finish2, int startRow, int total);
+	Long getAllByStartAndFinishBetweenCount(LocalDate start, LocalDate finish1, LocalDate finish2);
+	Optional<List<Cruise>> findAllByFinishMinusStartBetween(int minDuration,  int maxDuration, int startRow, int total);
+	Long getAllByFinishMinusStartBetweenCount(int minDuration, int maxDuration);
 	Optional<Cruise> findByIdNotBookined(Long cruiseId, Long userId);
 	Optional<List<Cruise>> findUserCruisesByOrders(Long userId);
     Optional<List<Port>> getPortsById(Long id);

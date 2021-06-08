@@ -20,13 +20,15 @@
 <jsp:include page="pages/header.jsp" />
 </head>
 <body>
+	<a href="/CruiseLine-Servlet/main?action=MAIN_PAGE">MAIN_PAGEs</a>
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-2">
 				<h2>
 					<fmt:message key="main.filter.title" bundle="${locale}" />
 				</h2>
-				<form action="/CruiseLine-Servlet/main?action=filter" method="post">
+				<form action="/CruiseLine-Servlet/main?action=filter&page=1"
+					method="post">
 					<div class="form-group">
 						<label for="validationServer01"> <fmt:message
 								key="main.filter.date" bundle="${locale}" />
@@ -35,38 +37,60 @@
 					</div>
 					<fmt:message key="main.filter.duration.title" bundle="${locale}" />
 					<div class="form-group">
-						<label for="validationServer01">					
-						<fmt:message key="main.filter.duration.min" bundle="${locale}" />
-</label> <input
-							type="text" name="min_duration" class="form-control">
+						<label for="validationServer01"> <fmt:message
+								key="main.filter.duration.min" bundle="${locale}" />
+						</label> <input type="text" name="min_duration" class="form-control">
 					</div>
 					<div class="form-group">
-						<label for="validationServer01">
-						<fmt:message key="main.filter.duration.max" bundle="${locale}" />
-</label> <input
-							type="text" name="max_duration" class="form-control">
+						<label for="validationServer01"> <fmt:message
+								key="main.filter.duration.max" bundle="${locale}" />
+						</label> <input type="text" name="max_duration" class="form-control">
 					</div>
 					<div>
 						<c:if test="${not empty invalid_duration}">
-						<fmt:message key="main.filter.duration.error" bundle="${locale}" />
-			    		</c:if>
+							<fmt:message key="main.filter.duration.error" bundle="${locale}" />
+						</c:if>
 					</div>
 					<div class="form-group">
-						<input type="submit" value="<fmt:message key="main.filter.btn" bundle="${locale}" />">
+						<input type="submit"
+							value="<fmt:message key="main.filter.btn" bundle="${locale}" />">
 					</div>
 
 				</form>
 			</div>
 			<div class="col-md-8">
-				<a href="/CruiseLine-Servlet/main?action=get_cruises"><h2>
-					<fmt:message key="main.cruiselist.title" bundle="${locale}" /></h2></a>
+				<a href="/CruiseLine-Servlet/main?action=get_cruises&page=1"><h2>
+						<fmt:message key="main.cruiselist.title" bundle="${locale}" />
+					</h2></a> <a><h4>
+						<c:if
+							test="${(not empty date) or (not empty min_duration) or (not empty max_duration)}">
+							<fmt:message key="main.cruiselist.filter_parameters"
+								bundle="${locale}" />
+								<c:if test="${not empty date}">
+									<fmt:message key="main.filter.date" bundle="${locale}" />
+									<a>- </a> ${date} 
+								</c:if>
+								<c:if test="${not empty min_duration}">
+									<fmt:message key="main.filter.duration.min" bundle="${locale}" />
+									<a>: </a> ${min_duration} 
+								</c:if>
+								<c:if test="${not empty max_duration}"> 
+									<fmt:message key="main.filter.duration.max" bundle="${locale}" />
+									<a>- </a> ${max_duration}
+								</c:if>
+						</c:if>
+					</h4></a>
 				<table class="table">
 					<thead>
 						<tr>
-							<th scope="col"><fmt:message key="main.cruiselist.table.name" bundle="${locale}" /></th>
-							<th scope="col"><fmt:message key="main.cruiselist.table.availablecount" bundle="${locale}" /></th>
-							<th scope="col"><fmt:message key="main.cruiselist.table.start" bundle="${locale}" /></th>
-							<th scope="col"><fmt:message key="main.cruiselist.table.finish" bundle="${locale}" /></th>
+							<th scope="col"><fmt:message
+									key="main.cruiselist.table.name" bundle="${locale}" /></th>
+							<th scope="col"><fmt:message
+									key="main.cruiselist.table.availablecount" bundle="${locale}" /></th>
+							<th scope="col"><fmt:message
+									key="main.cruiselist.table.start" bundle="${locale}" /></th>
+							<th scope="col"><fmt:message
+									key="main.cruiselist.table.finish" bundle="${locale}" /></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -81,6 +105,14 @@
 						</c:forEach>
 					</tbody>
 				</table>
+			</div>
+			<div>
+				<c:forEach var="page" items="${pages}">
+					<tr>
+						<td><a
+							href="/CruiseLine-Servlet/main?action=get_cruises&page=${page}">${page}</a></td>
+					</tr>
+				</c:forEach>
 			</div>
 		</div>
 	</div>

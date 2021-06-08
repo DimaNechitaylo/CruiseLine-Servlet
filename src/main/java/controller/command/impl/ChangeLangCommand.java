@@ -17,7 +17,6 @@ public class ChangeLangCommand implements Command {
 	public String execute(HttpServletRequest request) {
         Locale locale = new Locale(request.getParameter("lang"));
         ResourceManager.getInstance().changeLocale(locale);
-        logger.debug(locale.getLanguage());
         request.getSession(false).setAttribute("lang", locale);
 		return "redirect:CruiseLine-Servlet";
 	}

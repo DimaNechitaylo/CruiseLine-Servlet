@@ -12,6 +12,7 @@ import controller.command.impl.GetFiltredCruisesCommand;
 import controller.command.impl.GetOrdersThatRequireProcessing;
 import controller.command.impl.GetUserOrdersCommand;
 import controller.command.impl.LogOutCommand;
+import controller.command.impl.MainPageCommand;
 import controller.command.impl.OrderAdminOperationCommand;
 import controller.command.impl.OrderUserOperationCommand;
 import controller.command.impl.ProfileCommand;
@@ -36,6 +37,7 @@ public class CommandCaller {
         commands.put("ORDER_ADMIN_OPERATION", new OrderAdminOperationCommand());
         commands.put("GET_ORDERS_THAT_REQUIRE_PROCESSING", new GetOrdersThatRequireProcessing());
         commands.put("CHANGE_LANG", new ChangeLangCommand());
+        commands.put("MAIN_PAGE", new MainPageCommand());
     }
 
     public Command call(String commandName) {

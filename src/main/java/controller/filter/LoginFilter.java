@@ -31,6 +31,7 @@ public class LoginFilter implements Filter {
 		boolean safePages = request.getRequestURI().contains("index.jsp")
 				|| request.getRequestURI().contains("signin.jsp") 
 				|| request.getRequestURI().contains("signup.jsp")
+				|| request.getRequestURI().contains("error.jsp")
 				|| request.getRequestURI().equals("/CruiseLine-Servlet/");
 
 		boolean tryingToEnter = "signin".equalsIgnoreCase(request.getParameter("action"))

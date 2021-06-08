@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import util.ResourceManager;
+
 public class DBManager {
 	private final String connectionUrl;
 	private final String user;
@@ -14,7 +16,7 @@ public class DBManager {
 	private static DBManager manager;
 	
 	 private DBManager() {
-	        ResourceBundle bundle = ResourceBundle.getBundle("db_configuration", Locale.getDefault());
+	        ResourceBundle bundle = ResourceManager.getInstance().getDbConfigurationBundle();
 	        connectionUrl = bundle.getString("connection.url");
 	        user = bundle.getString("user");
 	        password = bundle.getString("password");

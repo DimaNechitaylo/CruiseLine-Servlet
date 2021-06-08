@@ -60,11 +60,13 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 	}
 
 	@Override
-	public Optional<List<Cruise>> findAllByStart(LocalDate start) {
+	public Optional<List<Cruise>> findAllByStart(LocalDate startDate, int startRow,int total) {
 		List<Cruise> cruiseList = new ArrayList<>();
 		String query = bundle.getString("cruise.findAllByStart");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
-			statement.setDate(1, Date.valueOf(start));
+			statement.setDate(1, Date.valueOf(startDate));
+			statement.setInt(2, startRow);
+			statement.setInt(3, total);
 			try (ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) {
 					cruiseList.add(extractEntity(resultSet));
@@ -78,13 +80,15 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 
 	@Override
 	public Optional<List<Cruise>> findAllByStartAndFinishBetween(LocalDate start, LocalDate finish1,
-			LocalDate finish2) {
+			LocalDate finish2, int startRow,int total) {
 		List<Cruise> cruiseList = new ArrayList<>();
 		String query = bundle.getString("cruise.findAllByStartAndFinishBetween");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setDate(1, Date.valueOf(start));
 			statement.setDate(2, Date.valueOf(finish1));
 			statement.setDate(3, Date.valueOf(finish2));
+			statement.setInt(4, startRow);
+			statement.setInt(5, total);
 			try (ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) {
 					cruiseList.add(extractEntity(resultSet));
@@ -96,14 +100,37 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 		}
 		return Optional.ofNullable(cruiseList);
 	}
+	
+	@Override
+	public Long getAllByStartAndFinishBetweenCount(LocalDate start, LocalDate finish1,
+			LocalDate finish2) {
+		Long cruiseCount = 0L;
+		String query = bundle.getString("cruise.getAllByStartAndFinishBetweenCount");
+		try (PreparedStatement statement = connection.prepareStatement(query)) {
+			statement.setDate(1, Date.valueOf(start));
+			statement.setDate(2, Date.valueOf(finish1));
+			statement.setDate(3, Date.valueOf(finish2));
+			try (ResultSet resultSet = statement.executeQuery()) {
+				while (resultSet.next()) {
+					cruiseCount = resultSet.getLong(1);
+				}
+			}
+		} catch (SQLException e) {
+			logger.error(
+					"SQLException in  findAllByStartAndFinishBetween(LocalDate start, LocalDate finish1,LocalDate finish2)" + e);
+		}
+		return cruiseCount;
+	}
 
 	@Override
-	public Optional<List<Cruise>> findAllByFinishMinusStartBetween(int minDuration, int maxDuration) {
+	public Optional<List<Cruise>> findAllByFinishMinusStartBetween(int minDuration, int maxDuration, int startRow,int total) {
 		List<Cruise> cruiseList = new ArrayList<>();
 		String query = bundle.getString("cruise.findAllByFinishMinusStartBetween");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setInt(1, minDuration);
 			statement.setInt(2, maxDuration);
+			statement.setInt(3, startRow);
+			statement.setInt(4, total);
 			try (ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) {
 					cruiseList.add(extractEntity(resultSet));
@@ -113,6 +140,24 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 			logger.error("SQLException in findAllByFinishMinusStartBetween()" + e);
 		}
 		return Optional.ofNullable(cruiseList);
+	}
+	
+	@Override
+	public Long getAllByFinishMinusStartBetweenCount(int minDuration, int maxDuration) {
+		Long cruiseCount = 0L;
+		String query = bundle.getString("cruise.getAllByFinishMinusStartBetweenCount");
+		try (PreparedStatement statement = connection.prepareStatement(query)) {
+			statement.setInt(1, minDuration);
+			statement.setInt(2, maxDuration);
+			try (ResultSet resultSet = statement.executeQuery()) {
+				while (resultSet.next()) {
+					cruiseCount = resultSet.getLong(1);
+				}
+			}
+		} catch (SQLException e) {
+			logger.error("SQLException in getAvailableCruises() " + e);
+		}
+		return cruiseCount;
 	}
 
 	@Override
@@ -186,10 +231,12 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 	}
 
 	@Override
-	public Optional<List<Cruise>> getAvailableCruises() {
+	public Optional<List<Cruise>> getAvailableCruises(int start,int total) {
 		List<Cruise> cruiseList = new ArrayList<Cruise>();
 		String query = bundle.getString("cruise.getAvailableCruises");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
+			statement.setLong(1, start);
+			statement.setLong(2, total);
 			try (ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) {
 					cruiseList.add(extractEntity(resultSet));
@@ -199,6 +246,23 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 			logger.error("SQLException in getAvailableCruises() " + e);
 		}
 		return Optional.ofNullable(cruiseList);
+	}
+	
+	@Override
+	public Long getAvailableCruisesCount() {
+		Long cruiseCount = 0L;
+		String query = bundle.getString("cruise.getAvailableCruisesCount");
+		try (PreparedStatement statement = connection.prepareStatement(query)) {
+			try (ResultSet resultSet = statement.executeQuery()) {
+				while (resultSet.next()) {
+					cruiseCount = resultSet.getLong(1);
+				}
+			}
+		} catch (SQLException e) {
+			logger.error("SQLException in getAvailableCruises() " + e);
+		}
+		logger.debug(cruiseCount);
+		return cruiseCount;
 	}
 
 	@Override
