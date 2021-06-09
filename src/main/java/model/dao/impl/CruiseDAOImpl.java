@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import org.apache.log4j.Logger;
@@ -25,14 +26,14 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 	private final DAOFactory daoFactory = new DAOFactoryImpl();
 
 	@Override
-	public Optional<Cruise> getCruise(Long id) {
+	public Optional<Cruise> getCruise(Long id, Locale locale) {
 		Cruise cruise = Cruise.builder().build();
 		String query = bundle.getString("cruise.getById");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setLong(1, id);
 			try (ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) {
-					cruise = extractEntity(resultSet);
+					cruise = extractEntity(resultSet, locale);
 				}
 			}
 		} catch (SQLException e) {
@@ -60,7 +61,7 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 	}
 
 	@Override
-	public Optional<List<Cruise>> findAllByStart(LocalDate startDate, int startRow,int total) {
+	public Optional<List<Cruise>> findAllByStart(LocalDate startDate, int startRow,int total, Locale locale) {
 		List<Cruise> cruiseList = new ArrayList<>();
 		String query = bundle.getString("cruise.findAllByStart");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -69,7 +70,7 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 			statement.setInt(3, total);
 			try (ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) {
-					cruiseList.add(extractEntity(resultSet));
+					cruiseList.add(extractEntity(resultSet, locale));
 				}
 			}
 		} catch (SQLException e) {
@@ -80,7 +81,7 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 
 	@Override
 	public Optional<List<Cruise>> findAllByStartAndFinishBetween(LocalDate start, LocalDate finish1,
-			LocalDate finish2, int startRow,int total) {
+			LocalDate finish2, int startRow,int total, Locale locale) {
 		List<Cruise> cruiseList = new ArrayList<>();
 		String query = bundle.getString("cruise.findAllByStartAndFinishBetween");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -91,7 +92,7 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 			statement.setInt(5, total);
 			try (ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) {
-					cruiseList.add(extractEntity(resultSet));
+					cruiseList.add(extractEntity(resultSet, locale));
 				}
 			}
 		} catch (SQLException e) {
@@ -123,7 +124,7 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 	}
 
 	@Override
-	public Optional<List<Cruise>> findAllByFinishMinusStartBetween(int minDuration, int maxDuration, int startRow,int total) {
+	public Optional<List<Cruise>> findAllByFinishMinusStartBetween(int minDuration, int maxDuration, int startRow,int total, Locale locale) {
 		List<Cruise> cruiseList = new ArrayList<>();
 		String query = bundle.getString("cruise.findAllByFinishMinusStartBetween");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -133,7 +134,7 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 			statement.setInt(4, total);
 			try (ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) {
-					cruiseList.add(extractEntity(resultSet));
+					cruiseList.add(extractEntity(resultSet, locale));
 				}
 			}
 		} catch (SQLException e) {
@@ -161,7 +162,7 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 	}
 
 	@Override
-	public Optional<Cruise> findByIdNotBookined(Long cruiseId, Long userId) {
+	public Optional<Cruise> findByIdNotBookined(Long cruiseId, Long userId, Locale locale) {
 		Cruise cruise = Cruise.builder().build();
 		String query = bundle.getString("cruise.findByIdNotBookined");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -170,7 +171,7 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 			statement.setLong(3, cruiseId);
 			try (ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) {
-					cruise = extractEntity(resultSet);
+					cruise = extractEntity(resultSet, locale);
 				}
 			}
 		} catch (SQLException e) {
@@ -180,14 +181,14 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 	}
 
 	@Override
-	public Optional<List<Cruise>> findUserCruisesByOrders(Long userId) {
+	public Optional<List<Cruise>> findUserCruisesByOrders(Long userId, Locale locale) {
 		List<Cruise> cruiseList = new ArrayList<>();
 		String query = bundle.getString("cruise.findUserCruisesByOrders");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setLong(1, userId);
 			try (ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) {
-					cruiseList.add(extractEntity(resultSet));
+					cruiseList.add(extractEntity(resultSet, locale));
 				}
 			}
 		} catch (SQLException e) {
@@ -197,14 +198,16 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 	}
 
 	@Override
-	public Optional<List<Port>> getPortsById(Long cruiseId) {
+	public Optional<List<Port>> getPortsByCruiseId(Long cruiseId, Locale locale) {
 		List<Port> portList = new ArrayList<>();
-		String query = bundle.getString("cruise.getPortsById");
+		String query = locale.getLanguage() == "uk" 
+				? bundle.getString("cruise.getPortsUKByCruiseId") 
+						: bundle.getString("cruise.getPortsENByCruiseId");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setLong(1, cruiseId);
 			try (ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) { // TODO optimize
-					portList.add(daoFactory.getPortDAO().extractEntity(resultSet));
+					portList.add(daoFactory.getPortDAO().extractEntity(resultSet, locale));
 				}
 			}
 		} catch (SQLException e) {
@@ -231,7 +234,7 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 	}
 
 	@Override
-	public Optional<List<Cruise>> getAvailableCruises(int start,int total) {
+	public Optional<List<Cruise>> getAvailableCruises(int start,int total, Locale locale) {
 		List<Cruise> cruiseList = new ArrayList<Cruise>();
 		String query = bundle.getString("cruise.getAvailableCruises");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -239,7 +242,7 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 			statement.setLong(2, total);
 			try (ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) {
-					cruiseList.add(extractEntity(resultSet));
+					cruiseList.add(extractEntity(resultSet, locale));
 				}
 			}
 		} catch (SQLException e) {
@@ -266,17 +269,17 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 	}
 
 	@Override
-	public Cruise extractEntity(ResultSet resultSet) throws SQLException {
+	public Cruise extractEntity(ResultSet resultSet, Locale locale) throws SQLException {
 		Cruise cruise = Cruise.builder().build();
 			cruise = Cruise.builder()
 					.id(resultSet.getLong("c.id"))
-					.name(resultSet.getString("c.name"))
+					.name(resultSet.getString("c.name_"+locale.getLanguage()))
 					.ship(Ship.builder()
 							.id(resultSet.getLong("s.id"))
 							.name(resultSet.getString("s.name"))
 							.passengerСapacity(resultSet.getInt("s.passenger_сapacity"))
 							.build())
-					.ports(getPortsById(resultSet.getLong("c.id"))
+					.ports(getPortsByCruiseId(resultSet.getLong("c.id"), locale)
 							.orElseThrow(() -> new PortNotFoundException("the cruise has no ports")))
 					.passengers(getPassengersById(resultSet.getLong("c.id")))
 					.start(resultSet.getDate("c.start").toLocalDate())

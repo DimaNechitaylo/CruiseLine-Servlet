@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.toList;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.log4j.Logger;
 
@@ -12,7 +13,6 @@ import converter.impl.CruiseConverter;
 import model.dao.DAOFactory;
 import model.dao.impl.DAOFactoryImpl;
 import model.dto.CruiseDTO;
-import model.entity.Cruise;
 import model.service.CruiseService;
 import util.ResourceManager;
 import util.exception.CruiseNotFoundException;
@@ -29,9 +29,9 @@ public class CruiseServiceImpl implements CruiseService {
 	}
 
 	@Override
-	public List<CruiseDTO> getAvailableCruises(int page) {
+	public List<CruiseDTO> getAvailableCruises(int page, Locale locale) {
 		return daoFactory.getCruiseDAO()
-				.getAvailableCruises(page * ResourceManager.total - ResourceManager.total, ResourceManager.total)
+				.getAvailableCruises(page * ResourceManager.total - ResourceManager.total, ResourceManager.total, locale)
 				.orElseThrow(() -> new CruiseNotFoundException("Not found available cruise list")).stream()
 				.map(c -> cruiseConverter.toDto(c)).collect(toList());
 	}
@@ -68,39 +68,39 @@ public class CruiseServiceImpl implements CruiseService {
 	}
 
 	@Override
-	public List<CruiseDTO> getFiltredCruises(LocalDate start, int minDuration, int maxDuration, int page) {
+	public List<CruiseDTO> getFiltredCruises(LocalDate start, int minDuration, int maxDuration, int page, Locale locale) {
 		return daoFactory.getCruiseDAO()
 				.findAllByStartAndFinishBetween(start, start.plusDays(minDuration), start.plusDays(maxDuration),
-						page * ResourceManager.total - ResourceManager.total, ResourceManager.total)
+						page * ResourceManager.total - ResourceManager.total, ResourceManager.total, locale)
 				.orElseThrow(() -> new CruiseNotFoundException("Not found findAllByStartAndFinishBetween cruise list"))
 				.stream().map(c -> cruiseConverter.toDto(c)).collect(toList());
 	}
 
 	@Override
-	public List<CruiseDTO> getFiltredCruises(int minDuration, int maxDuration, int page) {
+	public List<CruiseDTO> getFiltredCruises(int minDuration, int maxDuration, int page, Locale locale) {
 		return daoFactory.getCruiseDAO()
 				.findAllByFinishMinusStartBetween(minDuration, maxDuration,
-						page * ResourceManager.total - ResourceManager.total, ResourceManager.total)
+						page * ResourceManager.total - ResourceManager.total, ResourceManager.total, locale)
 				.orElseThrow(
 						() -> new CruiseNotFoundException("Not found findAllByFinishMinusStartBetween cruise list"))
 				.stream().map(c -> cruiseConverter.toDto(c)).collect(toList());
 	}
 
 	@Override
-	public CruiseDTO getCruiseDTO(Long id) {
-		return cruiseConverter.toDto(daoFactory.getCruiseDAO().getCruise(id)
+	public CruiseDTO getCruiseDTO(Long id, Locale locale) {
+		return cruiseConverter.toDto(daoFactory.getCruiseDAO().getCruise(id, locale)
 				.orElseThrow(() -> new CruiseNotFoundException("Cruise not found with id:" + id)));
 	}
 
 	@Override
-	public CruiseDTO getCruiseByIdNotBookined(Long cruiseId, Long userId) {
-		return cruiseConverter.toDto(daoFactory.getCruiseDAO().findByIdNotBookined(cruiseId, userId)
+	public CruiseDTO getCruiseByIdNotBookined(Long cruiseId, Long userId, Locale locale) {
+		return cruiseConverter.toDto(daoFactory.getCruiseDAO().findByIdNotBookined(cruiseId, userId, locale)
 				.orElseThrow(() -> new CruiseNotFoundException("Not bookined cruise not found with id:" + cruiseId)));
 	}
 
 	@Override
-	public List<CruiseDTO> getUserCruises(Long userId) {
-		return daoFactory.getCruiseDAO().findUserCruisesByOrders(userId)
+	public List<CruiseDTO> getUserCruises(Long userId, Locale locale) {
+		return daoFactory.getCruiseDAO().findUserCruisesByOrders(userId, locale)
 				.orElseThrow(() -> new CruiseNotFoundException("Not found getUserCruises cruise list")).stream()
 				.map(c -> cruiseConverter.toDto(c)).collect(toList());
 	}

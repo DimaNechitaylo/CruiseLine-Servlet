@@ -1,6 +1,7 @@
 package controller.command.impl;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,7 +25,7 @@ public class GetUserOrdersCommand implements Command {
 	@Override
 	public String execute(HttpServletRequest request) {
 		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
-		List<OrderDTO> userOrsers = orderService.getUserOrders(user.getId());
+		List<OrderDTO> userOrsers = orderService.getUserOrders(user.getId(),  (Locale) request.getSession().getAttribute("lang"));
 		request.getSession().setAttribute("userOrsers", userOrsers);
 		return "redirect:CruiseLine-Servlet/pages/profile.jsp";
 	}

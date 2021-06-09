@@ -46,10 +46,6 @@ public class CruiseConverter implements Mapper<Cruise, CruiseDTO>{
         		.name(cruiseDTO.getName())
         		.start(cruiseDTO.getStart())
         		.finish(cruiseDTO.getFinish())
-        		.ports(Objects.isNull(cruiseDTO.getPortNames()) ? new ArrayList<Port>() :
-        				cruiseDTO.getPortNames().stream()
-        				.map(e -> portService.getPort(e))
-        				.collect(Collectors.toList()))
         		.build();
     }
 }

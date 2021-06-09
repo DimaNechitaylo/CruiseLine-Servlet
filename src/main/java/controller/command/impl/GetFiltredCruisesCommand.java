@@ -1,8 +1,7 @@
 package controller.command.impl;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 
 import controller.command.Command;
-import model.dto.CruiseDTO;
 import model.service.CruiseService;
 import model.service.impl.CruiseServiceImpl;
 import util.ResourceManager;
@@ -26,6 +24,9 @@ public class GetFiltredCruisesCommand implements Command {
 	
 	@Override
 	public String execute(HttpServletRequest request) {
+//		Locale locale = new Locale((String) request.getSession().getAttribute("lang"));
+		Locale locale = (Locale) request.getSession().getAttribute("lang");
+
 		String date = (String) request.getParameter("date");
 		String min = (String) request.getParameter("min_duration");
 		String max = (String) request.getParameter("max_duration");
@@ -46,8 +47,8 @@ public class GetFiltredCruisesCommand implements Command {
 		int minDuration = min.isBlank() ? 0 : Integer.parseInt(min);
 		int maxDuration = max.isBlank() ? 10_000 : Integer.parseInt(max);
 		request.getSession().setAttribute("cruises", date.isBlank() 
-														? cruiseService.getFiltredCruises(minDuration, maxDuration, page) 
-														: cruiseService.getFiltredCruises(LocalDate.parse(date), minDuration, maxDuration, page));
+														? cruiseService.getFiltredCruises(minDuration, maxDuration, page, locale)
+														: cruiseService.getFiltredCruises(LocalDate.parse(date), minDuration, maxDuration, page,locale));
 		request.getSession().removeAttribute("invalid_duration");
 		request.getSession().setAttribute("pages", cruiseService.getPages(minDuration, maxDuration));
 		if(!date.isBlank()) {

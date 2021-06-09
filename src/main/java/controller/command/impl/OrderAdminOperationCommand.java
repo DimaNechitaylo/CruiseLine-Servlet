@@ -1,5 +1,7 @@
 package controller.command.impl;
 
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 
 import controller.command.Command;
@@ -15,6 +17,7 @@ public class OrderAdminOperationCommand implements Command {
 	}
 	@Override
 	public String execute(HttpServletRequest request) {
+		Locale locale =  (Locale) request.getSession().getAttribute("lang");
 		if(request.getParameter("order_id") == null) {
 			//return error page
 		}
@@ -24,10 +27,10 @@ public class OrderAdminOperationCommand implements Command {
 
 		switch (request.getParameter("operation")) {
 		case "confirm":
-			orderService.confirm(orderId, user.getId());
+			orderService.confirm(orderId, user.getId(), locale);
 			break;
 		case "reject":
-			orderService.reject(orderId, user.getId());
+			orderService.reject(orderId, user.getId(), locale);
 			break;
 		default:
 			//return error page

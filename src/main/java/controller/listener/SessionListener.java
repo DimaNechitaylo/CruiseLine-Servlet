@@ -17,7 +17,7 @@ public class SessionListener implements HttpSessionListener {
 		if (session.getAttribute("lang") == null) {
 			Locale localeEN = new Locale("en");
 			ResourceManager.getInstance().changeLocale(localeEN);
-			session.setAttribute("lang", localeEN.getLanguage());
+			session.setAttribute("lang", localeEN);
 		}
 	}
 }

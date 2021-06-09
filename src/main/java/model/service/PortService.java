@@ -1,8 +1,10 @@
 package model.service;
 
+import java.util.Locale;
+
 import model.entity.Port;
 
 public interface PortService {
-	public Port getPort(Long id);
-	public Port getPort(String name);
+	Port getPort(Long id, Locale locale);
+	Port getPort(String name, Locale locale);
 }

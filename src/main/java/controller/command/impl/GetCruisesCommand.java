@@ -1,7 +1,7 @@
 package controller.command.impl;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +23,9 @@ public class GetCruisesCommand implements Command {
 	}
 	@Override
 	public String execute(HttpServletRequest request) {
+//		Locale locale = new Locale((String) request.getSession().getAttribute("lang"));
+		Locale locale = (Locale) request.getSession().getAttribute("lang");
+
 		Integer page;
 		try {
 			String pageStr = request.getParameter("page");
@@ -45,8 +48,8 @@ public class GetCruisesCommand implements Command {
 		int minDuration = min.isBlank() ? 0 : Integer.parseInt(min);
 		int maxDuration = max.isBlank() ? 10_000 : Integer.parseInt(max);
 		request.getSession().setAttribute("cruises", date.isBlank() 
-													? cruiseService.getFiltredCruises(minDuration, maxDuration, page) 
-													: cruiseService.getFiltredCruises(LocalDate.parse(date), minDuration, maxDuration, page));
+													? cruiseService.getFiltredCruises(minDuration, maxDuration, page, locale) 
+													: cruiseService.getFiltredCruises(LocalDate.parse(date), minDuration, maxDuration, page, locale));
 		return "redirect:CruiseLine-Servlet";
 	}
 

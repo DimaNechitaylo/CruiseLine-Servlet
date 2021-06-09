@@ -1,6 +1,6 @@
 package model.service.impl;
 
-import org.apache.log4j.Logger;
+import java.util.Locale;
 
 import model.dao.DAOFactory;
 import model.dao.impl.DAOFactoryImpl;
@@ -9,7 +9,6 @@ import model.service.PortService;
 import util.exception.PortNotFoundException;
 
 public class PortServiceImpl implements PortService {
-    private static Logger logger = Logger.getLogger(UserServiceImpl.class.getName());
 
     private final DAOFactory daoFactory;
 
@@ -18,14 +17,14 @@ public class PortServiceImpl implements PortService {
     }
 
 	@Override
-	public Port getPort(Long id) {
-		return daoFactory.getPortDAO().getPort(id)
+	public Port getPort(Long id, Locale locale) {
+		return daoFactory.getPortDAO().getPort(id, locale)
 				.orElseThrow(() -> new PortNotFoundException("Port with id = "+id+" not found"));
 	}
 
 	@Override
-	public Port getPort(String name) {
-		return daoFactory.getPortDAO().getPort(name)
+	public Port getPort(String name, Locale locale) {
+		return daoFactory.getPortDAO().getPort(name, locale)
 				.orElseThrow(() -> new PortNotFoundException("Port with name = "+name+" not found"));
 	}
 

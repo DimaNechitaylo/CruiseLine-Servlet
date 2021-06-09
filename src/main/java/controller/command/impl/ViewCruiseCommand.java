@@ -1,5 +1,6 @@
 package controller.command.impl;
 
+import java.util.Locale;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +30,9 @@ public class ViewCruiseCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		CruiseDTO cruise = cruiseService.getCruiseDTO(Long.parseLong(request.getParameter("cruise_id")));
+		Locale locale =  (Locale) request.getSession().getAttribute("lang");
+
+		CruiseDTO cruise = cruiseService.getCruiseDTO(Long.parseLong(request.getParameter("cruise_id")), (Locale) request.getSession().getAttribute("lang"));
 		request.setAttribute("cruise", cruise);
 
 		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
@@ -38,7 +41,7 @@ public class ViewCruiseCommand implements Command {
 		}
 		try {
 			request.setAttribute("order",
-					orderService.getOrder(Long.parseLong(request.getParameter("cruise_id")), user.getId()));
+					orderService.getOrder(Long.parseLong(request.getParameter("cruise_id")), user.getId(), locale));
 		} catch (OrderNotFoundException eOrder) {
 			logger.info("Order not found");
 		} catch (UserNotFoundException eUser) {
