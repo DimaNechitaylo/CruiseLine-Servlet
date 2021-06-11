@@ -24,6 +24,7 @@ public class CruiseConverter implements Mapper<Cruise, CruiseDTO>{
         return CruiseDTO.builder()
         		.id(cruise.getId())
 				.name(cruise.getName())
+				.description(cruise.getDescription())
 				.ship(cruise.getShip())
 				.passengersCount(Objects.isNull(cruise.getPassengers()) ? 0 :
 						cruise.getPassengers().size())
@@ -44,6 +45,7 @@ public class CruiseConverter implements Mapper<Cruise, CruiseDTO>{
         		.id(cruiseDTO.getId())
 				.ship(cruiseDTO.getShip())
         		.name(cruiseDTO.getName())
+				.description(cruiseDTO.getDescription())
         		.start(cruiseDTO.getStart())
         		.finish(cruiseDTO.getFinish())
         		.build();

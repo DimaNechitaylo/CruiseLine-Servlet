@@ -8,6 +8,7 @@ import model.entity.Ship;
 public class CruiseDTO {
 	private Long id;
 	private String name;
+	private String description;
 	private Ship ship;
 	private int passengersCount;
 	private int availableCount;
@@ -27,6 +28,12 @@ public class CruiseDTO {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	public Ship getShip() {
 		return ship;
@@ -76,6 +83,10 @@ public class CruiseDTO {
 		
 		public Builder name(String name) {
 			CruiseDTO.this.setName(name);
+			return this;
+		}
+		public Builder description(String description) {
+			CruiseDTO.this.setDescription(description);
 			return this;
 		}
 		public Builder ship(Ship ship) {

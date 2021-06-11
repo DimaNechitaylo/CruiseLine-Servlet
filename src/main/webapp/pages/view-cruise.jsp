@@ -25,29 +25,33 @@
 <title>Insert title here</title>
 </head>
 <body>
-
 	<table class="table table-bordered">
 		<tr>
 			<th><fmt:message key="view-cruise.table.ship-name"
 					bundle="${locale}" /></th>
-			<th><c:out value="${cruise.name}" /></th>
+			<td><c:out value="${cruise.name}" /></td>
 		</tr>
 		<tr>
 			<th><fmt:message key="view-cruise.table.availablecount"
 					bundle="${locale}" /></th>
-			<th><c:out
-					value="${cruise.availableCount}/${cruise.ship.passengerСapacity}" /></th>
+			<td><c:out
+					value="${cruise.availableCount}/${cruise.ship.passengerСapacity}" /></td>
 		</tr>
 		<tr>
 			<th><fmt:message key="view-cruise.table.start"
 					bundle="${locale}" /></th>
-			<th><c:out value="${cruise.start}" /></th>
+			<td><c:out value="${cruise.start}" /></td>
 		</tr>
 		<tr>
 			<th><fmt:message key="view-cruise.table.finish"
 					bundle="${locale}" /></th>
-			<th><c:out value="${cruise.finish}" /></th>
+			<td><c:out value="${cruise.finish}" /></td>
 
+		</tr>
+		<tr>
+			<th scope="col"><fmt:message key="view-cruise.table.description"
+					bundle="${locale}" /></th>
+			<td><c:out value="${cruise.description}" /></td>
 		</tr>
 		<tr>
 			<table class="table">
@@ -67,61 +71,55 @@
 			</table>
 		</tr>
 		<tr>
-			<th scope="col"><fmt:message key="view-cruise.table.description"
-					bundle="${locale}" /></th>
-			<th><c:out value="${order.status}" /></th>
-		</tr>
-		<tr>
-			<th>
-			<c:choose>
-				<c:when test="${order == null}">
-					<form action="${order_operation_request}" method="post">
-						<button type="submit" value="submit" name="operation"
-							class="btn btn-primary">
-							<fmt:message key="order.operation.apply" bundle="${locale}" />
-						</button>
-						<div></div>
-					</form>
-				</c:when>
-				<c:when test="${order.status == 'PROCESSING'}">
-					<label><fmt:message key="order.status.processing"
-							bundle="${locale}" /></label>
-				</c:when>
-				<c:when test="${order.status == 'WATING_PAYMENT'}">
-					<fmt:message key="order.status.waiting_payment" bundle="${locale}" />
-					<form action="${order.status.waiting_payment}" method="post">
-						<button type="submit" value="pay" name="operation"
-							class="btn btn-primary">
-							<fmt:message key="order.operation.pay" bundle="${locale}" />
-						</button>
-						<button type="submit" value="cancel" name="operation"
-							class="btn btn-primary">
-							<fmt:message key="order.operation.cancel" bundle="${locale}" />
-						</button>
-					</form>
-				</c:when>
-				<c:when test="${order.status == 'PAID'}">
-					<label><fmt:message key="order.status.paid"
-							bundle="${locale}" /></label>
-				</c:when>
-				<c:when test="${order.status == 'CANCELED'}">
-					<label><fmt:message key="order.status.canceled"
-							bundle="${locale}" /></label>
-				</c:when>
-				<c:when test="${order.status == 'REJECTED'}">
-					<label><fmt:message key="order.status.rejected"
-							bundle="${locale}" /></label>
-				</c:when>
-				<c:when test="${order.status == 'STARTED'}">
-					<label><fmt:message key="order.status.started"
-							bundle="${locale}" /></label>
-				</c:when>
-				<c:when test="${order.status == 'FINISHED'}">
-					<label><fmt:message key="order.status.finished"
-							bundle="${locale}" /></label>
-				</c:when>
-			</c:choose>
-			</th>
+			<th><c:choose>
+					<c:when test="${order == null}">
+						<form action="${order_operation_request}" method="post">
+							<button type="submit" value="submit" name="operation"
+								class="btn btn-primary">
+								<fmt:message key="order.operation.apply" bundle="${locale}" />
+							</button>
+							<div></div>
+						</form>
+					</c:when>
+					<c:when test="${order.status == 'PROCESSING'}">
+						<label><fmt:message key="order.status.processing"
+								bundle="${locale}" /></label>
+					</c:when>
+					<c:when test="${order.status == 'WATING_PAYMENT'}">
+						<fmt:message key="order.status.waiting_payment" bundle="${locale}" />
+								<form
+									action="/CruiseLine-Servlet/main?action=order_user_operation&order_id=${userOrder.id}"
+									method="post">							<button type="submit" value="pay" name="operation"
+								class="btn btn-primary">
+								<fmt:message key="order.operation.pay" bundle="${locale}" />
+							</button>
+							<button type="submit" value="cancel" name="operation"
+								class="btn btn-primary">
+								<fmt:message key="order.operation.cancel" bundle="${locale}" />
+							</button>
+						</form>
+					</c:when>
+					<c:when test="${order.status == 'PAID'}">
+						<label><fmt:message key="order.status.paid"
+								bundle="${locale}" /></label>
+					</c:when>
+					<c:when test="${order.status == 'CANCELED'}">
+						<label><fmt:message key="order.status.canceled"
+								bundle="${locale}" /></label>
+					</c:when>
+					<c:when test="${order.status == 'REJECTED'}">
+						<label><fmt:message key="order.status.rejected"
+								bundle="${locale}" /></label>
+					</c:when>
+					<c:when test="${order.status == 'STARTED'}">
+						<label><fmt:message key="order.status.started"
+								bundle="${locale}" /></label>
+					</c:when>
+					<c:when test="${order.status == 'FINISHED'}">
+						<label><fmt:message key="order.status.finished"
+								bundle="${locale}" /></label>
+					</c:when>
+				</c:choose></th>
 		</tr>
 	</table>
 </body>

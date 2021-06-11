@@ -3,11 +3,14 @@ package model.entity;
 import java.time.LocalDate;
 import java.util.List;
 
+import model.dto.CruiseDTO;
 import model.dto.PassengerDTO;
+import model.dto.CruiseDTO.Builder;
 
 public class Cruise {
 	private Long id;
 	private String name;
+	private String description;
 	private Ship ship;
 	private List<Port> ports;
 	private List<PassengerDTO> passengers;
@@ -28,6 +31,13 @@ public class Cruise {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public Ship getShip() {
@@ -90,6 +100,11 @@ public class Cruise {
 
 		public Builder name(String name) {
 			Cruise.this.setName(name);
+			return this;
+		}
+		
+		public Builder description(String description) {
+			Cruise.this.setDescription(description);
 			return this;
 		}
 

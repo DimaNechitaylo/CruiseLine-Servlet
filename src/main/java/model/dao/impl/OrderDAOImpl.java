@@ -118,10 +118,13 @@ public class OrderDAOImpl extends DBRepository implements OrderDAO {
 	@Override
 	public boolean startCruises() {
 		String query = bundle.getString("order.startCruises");
-		try (PreparedStatement statement = connection.prepareStatement(query)) {
-			statement.setString(1, OrderStatus.STARTED.toString());
-			statement.setString(2, OrderStatus.PAID.toString());
-			if(statement.executeUpdate() > 0) {
+		try (PreparedStatement statement1 = connection.prepareStatement(query); 
+				PreparedStatement statement2 = connection.prepareStatement(query)) {
+			statement1.setString(1, OrderStatus.STARTED.toString());
+			statement1.setString(2, OrderStatus.PAID.toString());
+			statement2.setString(1, OrderStatus.CANCELED.toString());
+			statement2.setString(2, OrderStatus.WATING_PAYMENT.toString());
+			if(statement1.executeUpdate() > 0 | statement2.executeUpdate() > 0) {
 				logger.info("Start cruises");
 				return true;
 			}
@@ -279,6 +282,7 @@ public class OrderDAOImpl extends DBRepository implements OrderDAO {
 			            		.passengerСapacity(resultSet.getInt("s.passenger_сapacity"))
 			            		.build())
 						.name(resultSet.getString("c.name_"+locale.getLanguage()))
+						.description(resultSet.getString("c.description_"+locale.getLanguage()))
 						.start(resultSet.getDate("c.start").toLocalDate())
 						.finish(resultSet.getDate("c.finish").toLocalDate())
 						.build())

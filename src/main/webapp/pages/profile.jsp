@@ -40,7 +40,7 @@
 		<tbody>
 			<c:forEach var="userOrder" items="${userOrsers}">
 				<tr>
-					<td>${userOrder.cruiseDto.name}</td>
+					<td><a href="/CruiseLine-Servlet/main?action=view_cruise&cruise_id=${userOrder.cruiseDto.id}">${userOrder.cruiseDto.name}</a></td>
 					<td>${userOrder.cruiseDto.start}</td>
 					<td>${userOrder.cruiseDto.finish}</td>
 					<td><c:choose>

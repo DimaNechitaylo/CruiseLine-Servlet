@@ -274,6 +274,7 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 			cruise = Cruise.builder()
 					.id(resultSet.getLong("c.id"))
 					.name(resultSet.getString("c.name_"+locale.getLanguage()))
+					.description(resultSet.getString("c.description_"+locale.getLanguage()))
 					.ship(Ship.builder()
 							.id(resultSet.getLong("s.id"))
 							.name(resultSet.getString("s.name"))
