@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -33,7 +34,7 @@
 								key="main.filter.date" bundle="${locale}" />
 
 						</label> <input type="date" name="date" class="form-control">
-						
+
 					</div>
 					<fmt:message key="main.filter.duration.title" bundle="${locale}" />
 					<div class="form-group">
@@ -66,17 +67,17 @@
 							test="${(not empty date) or (not empty min_duration) or (not empty max_duration)}">
 							<fmt:message key="main.cruiselist.filter_parameters"
 								bundle="${locale}" />
-								<c:if test="${not empty date}">
-									<fmt:message key="main.filter.date" bundle="${locale}" />
-									<a>- </a> ${date} 
+							<c:if test="${not empty date}">
+								<fmt:message key="main.filter.date" bundle="${locale}" />
+								<a>- </a> ${date} 
 								</c:if>
-								<c:if test="${not empty min_duration}">
-									<fmt:message key="main.filter.duration.min" bundle="${locale}" />
-									<a>- </a> ${min_duration} 
+							<c:if test="${not empty min_duration}">
+								<fmt:message key="main.filter.duration.min" bundle="${locale}" />
+								<a>- </a> ${min_duration} 
 								</c:if>
-								<c:if test="${not empty max_duration}"> 
-									<fmt:message key="main.filter.duration.max" bundle="${locale}" />
-									<a>- </a> ${max_duration}
+							<c:if test="${not empty max_duration}">
+								<fmt:message key="main.filter.duration.max" bundle="${locale}" />
+								<a>- </a> ${max_duration}
 								</c:if>
 						</c:if>
 					</h4></a>
@@ -106,13 +107,15 @@
 					</tbody>
 				</table>
 			</div>
-			<div>
-				<c:forEach var="page" items="${pages}">
-					<tr>
-						<td><a
-							href="/CruiseLine-Servlet/main?action=get_cruises&page=${page}">${page}</a></td>
-					</tr>
-				</c:forEach>
+			<div id = "pages" class="row">
+				<div class="col-sm-12">
+					<c:forEach var="page" items="${pages}">
+						<tr>
+							<td><a
+								href="/CruiseLine-Servlet/main?action=get_cruises&page=${page}">${page}</a></td>
+						</tr>
+					</c:forEach>
+				</div>
 			</div>
 		</div>
 	</div>

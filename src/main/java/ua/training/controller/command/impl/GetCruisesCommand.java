@@ -43,10 +43,12 @@ public class GetCruisesCommand implements Command {
 		
 		int minDuration = min.isBlank() ? 0 : Integer.parseInt(min);
 		int maxDuration = max.isBlank() ? 10_000 : Integer.parseInt(max);
+		
+		
 		request.getSession().setAttribute("cruises", date.isBlank() 
 													? cruiseService.getFiltredCruises(minDuration, maxDuration, page, locale) 
 													: cruiseService.getFiltredCruises(LocalDate.parse(date), minDuration, maxDuration, page, locale));
 		return "redirect:CruiseLine-Servlet/home.jsp";
 	}
-
+	
 }

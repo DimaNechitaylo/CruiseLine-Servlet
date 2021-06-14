@@ -11,14 +11,11 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
-
 import ua.training.model.dto.UserDTO;
 import ua.training.model.entity.Role;
 
 @WebFilter("/*")
 public class LoginFilter implements Filter {
-	private static Logger logger = Logger.getLogger(LoginFilter.class.getName());
 
 	@Override
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
@@ -54,7 +51,6 @@ public class LoginFilter implements Filter {
 		if (loggedIn || safePages || tryingToEnter) {
 			filterChain.doFilter(request, response);
 		} else {
-			logger.info("redirect to main page" + request.getContextPath());
 			response.sendRedirect(request.getContextPath() + "/signin.jsp");
 		}
 
