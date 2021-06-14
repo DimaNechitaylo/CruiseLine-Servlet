@@ -1,15 +1,11 @@
 package converter.impl;
 
-import org.apache.log4j.Logger;
-
 import converter.Mapper;
 import model.dto.PassengerDTO;
 import model.dto.UserDTO;
 import model.entity.User;
 
 public class UserConverter implements Mapper<User, UserDTO> {
-	private static Logger logger = Logger.getLogger(UserConverter.class.getName());
-
 	@Override
 	public UserDTO toDto(User user) {
 		return UserDTO.builder().id(user.getId()).username(user.getUsername()).password(user.getPassword())

@@ -3,9 +3,7 @@ package model.entity;
 import java.time.LocalDate;
 import java.util.List;
 
-import model.dto.CruiseDTO;
 import model.dto.PassengerDTO;
-import model.dto.CruiseDTO.Builder;
 
 public class Cruise {
 	private Long id;

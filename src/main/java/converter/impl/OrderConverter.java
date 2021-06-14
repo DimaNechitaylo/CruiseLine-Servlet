@@ -1,7 +1,5 @@
 package converter.impl;
 
-import org.apache.log4j.Logger;
-
 import converter.Mapper;
 import model.dto.OrderDTO;
 import model.entity.Order;
@@ -9,7 +7,6 @@ import model.service.UserService;
 import model.service.impl.UserServiceImpl;
 
 public class OrderConverter implements Mapper<Order, OrderDTO>{
-	private static Logger logger = Logger.getLogger(OrderConverter.class.getName());
 
 	CruiseConverter cruiseConverter;
 	UserConverter userConverter;

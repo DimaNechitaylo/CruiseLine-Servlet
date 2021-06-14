@@ -1,8 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 import javax.servlet.ServletException;
@@ -10,13 +8,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import controller.command.Command;
 import controller.command.CommandCaller;
-import controller.command.impl.SignUpCommand;
+import util.exception.InvalidActionException;
 
 @WebServlet("/main")
 public class Servlet extends HttpServlet {
@@ -51,12 +47,17 @@ public class Servlet extends HttpServlet {
 			HttpServletResponse response) 
 					throws ServletException, IOException {
         String command  = request.getParameter("action");
-        if(Objects.isNull(command) || command.isBlank()) {
-        	response.sendRedirect("/CruiseLine-Servlet/index.jsp");
+        String path = "";
+        try {
+            path = commandCaller.call((Objects.isNull(command) ? "" : command).toUpperCase())
+            		.orElseThrow(() ->new InvalidActionException(command))
+            		.execute(request);
+		} catch (InvalidActionException e) {
+			logger.info(e);
+        	response.sendRedirect("/CruiseLine-Servlet/home.jsp");
         	return;
-        }
-        logger.info(request.getRequestURL());
-        String path = commandCaller.call(command.toUpperCase()).execute(request);
+		}
+        
         if(path.contains("redirect:")){
             response.sendRedirect(path.replace("redirect:", "/"));
         }else {

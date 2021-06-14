@@ -48,24 +48,6 @@ public class PortDAOImpl extends DBRepository implements PortDAO {
 	}
 
 	@Override
-	public boolean addPort(Port user) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean deletePort(Long id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean updatePort(Port user) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public Port extractEntity(ResultSet resultSet, Locale locale) throws SQLException {
 		Port port = null;
 		port = Port.builder().id(resultSet.getLong("id")).name(resultSet.getString("name_"+locale)).build();

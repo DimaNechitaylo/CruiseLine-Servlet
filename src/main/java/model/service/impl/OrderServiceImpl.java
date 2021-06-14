@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-import org.apache.log4j.Logger;
-
 import converter.impl.CruiseConverter;
 import converter.impl.OrderConverter;
 import converter.impl.UserConverter;
@@ -20,7 +18,6 @@ import model.service.UserService;
 import util.exception.OrderNotFoundException;
 
 public class OrderServiceImpl implements OrderService {
-	private static Logger logger = Logger.getLogger(OrderServiceImpl.class.getName());
 
 	private final OrderConverter orderConverter;
 	private final CruiseConverter cruiseConverter;

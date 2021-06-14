@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import converter.Mapper;
 import model.dto.CruiseDTO;
 import model.entity.Cruise;
-import model.entity.Port;
 import model.service.PortService;
 import model.service.impl.PortServiceImpl;
 

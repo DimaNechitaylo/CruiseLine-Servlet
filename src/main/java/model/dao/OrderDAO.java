@@ -13,7 +13,6 @@ public interface OrderDAO {
 	Optional<Order> getOrder(Long id, Locale locale);
 	Optional<Order> getOrder(Long cruiseId, Long userId, Locale locale);
 	boolean addOrder(Order order);
-	boolean deleteOrder(Long id);
     boolean updateOrderStatus(Order order);
 	Optional<List<Order>> findByUser(Long userId, Locale locale);
     boolean finishCruises();

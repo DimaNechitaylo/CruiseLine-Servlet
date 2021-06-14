@@ -13,9 +13,6 @@ import model.entity.Port;
 
 public interface CruiseDAO {
 	Optional<Cruise> getCruise(Long id, Locale locale);
-	boolean addCruise(Cruise user);
-	boolean deleteCruise(Long id);
-    boolean updateCruise(Cruise user);
     Optional<List<Cruise>> getAvailableCruises(int start, int total, Locale locale);
     Long getAvailableCruisesCount();
     Optional<List<Cruise>> findAllByStart(LocalDate start, int startRow, int total, Locale locale);

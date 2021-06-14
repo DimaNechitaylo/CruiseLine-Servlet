@@ -76,12 +76,6 @@ public class OrderDAOImpl extends DBRepository implements OrderDAO {
 	}
 
 	@Override
-	public boolean deleteOrder(Long id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public boolean updateOrderStatus(Order order) {
 		System.out.println(order);
 		String query = bundle.getString("order.updateOrderStatus");
@@ -119,11 +113,14 @@ public class OrderDAOImpl extends DBRepository implements OrderDAO {
 	public boolean startCruises() {
 		String query = bundle.getString("order.startCruises");
 		try (PreparedStatement statement1 = connection.prepareStatement(query); 
-				PreparedStatement statement2 = connection.prepareStatement(query)) {
+				PreparedStatement statement2 = connection.prepareStatement(query); 
+				PreparedStatement statement3 = connection.prepareStatement(query)) {
 			statement1.setString(1, OrderStatus.STARTED.toString());
 			statement1.setString(2, OrderStatus.PAID.toString());
 			statement2.setString(1, OrderStatus.CANCELED.toString());
 			statement2.setString(2, OrderStatus.WATING_PAYMENT.toString());
+			statement3.setString(1, OrderStatus.REJECTED.toString());
+			statement3.setString(2, OrderStatus.PROCESSING.toString());
 			if(statement1.executeUpdate() > 0 | statement2.executeUpdate() > 0) {
 				logger.info("Start cruises");
 				return true;

@@ -1,7 +1,5 @@
 package model.service.impl;
 
-import org.apache.log4j.Logger;
-
 import converter.impl.ShipConverter;
 import model.dao.DAOFactory;
 import model.dao.impl.DAOFactoryImpl;
@@ -11,7 +9,6 @@ import model.service.ShipService;
 import util.exception.ShipNotFoundException;
 
 public class ShipServiceImpl implements ShipService {
-	private static Logger logger = Logger.getLogger(ShipServiceImpl.class.getName());
 
 	private final ShipConverter shipConverter;
 	private final DAOFactory daoFactory;

@@ -14,7 +14,7 @@ public class LogOutCommand  implements Command {
 		request.getSession().removeAttribute("user");
 		request.getSession().invalidate();
 		logger.info("User deleted from session");
-		return "/index.jsp";
+		return "redirect:CruiseLine-Servlet/home.jsp";
 	}
 
 }

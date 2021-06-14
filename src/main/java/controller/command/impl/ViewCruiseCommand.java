@@ -14,6 +14,7 @@ import model.service.CruiseService;
 import model.service.OrderService;
 import model.service.impl.CruiseServiceImpl;
 import model.service.impl.OrderServiceImpl;
+import util.exception.CruiseNotFoundException;
 import util.exception.OrderNotFoundException;
 import util.exception.UserNotFoundException;
 
@@ -31,23 +32,24 @@ public class ViewCruiseCommand implements Command {
 	@Override
 	public String execute(HttpServletRequest request) {
 		Locale locale =  (Locale) request.getSession().getAttribute("lang");
-
-		CruiseDTO cruise = cruiseService.getCruiseDTO(Long.parseLong(request.getParameter("cruise_id")), (Locale) request.getSession().getAttribute("lang"));
-		request.setAttribute("cruise", cruise);
-
-		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
-		if(Objects.isNull(user)) {
-			return "pages/view-cruise.jsp";
-		}
 		try {
+			CruiseDTO cruise = cruiseService.getCruiseDTO(Long.parseLong(request.getParameter("cruise_id")), (Locale) request.getSession().getAttribute("lang"));
+			request.setAttribute("cruise", cruise);
+
+			UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+			if(Objects.isNull(user)) {
+				return "pages/view-cruise.jsp";
+			}
 			request.setAttribute("order",
 					orderService.getOrder(Long.parseLong(request.getParameter("cruise_id")), user.getId(), locale));
 		} catch (OrderNotFoundException eOrder) {
 			logger.info("Order not found");
 		} catch (UserNotFoundException eUser) {
 			logger.info("User not found");
+		} catch (CruiseNotFoundException eUser) {
+			logger.info("Cruise not found");
 		}
-		return "pages/view-cruise.jsp";
+		return "view-cruise.jsp";
 	}
 
 }

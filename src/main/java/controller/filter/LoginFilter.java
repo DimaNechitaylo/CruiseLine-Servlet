@@ -29,12 +29,12 @@ public class LoginFilter implements Filter {
 		boolean loggedIn = request.getSession().getAttribute("user") != null;
 
 		boolean safePages = request.getRequestURI().contains("index.jsp")
-				|| request.getRequestURI().contains("signin.jsp") 
-				|| request.getRequestURI().contains("signup.jsp")
-				|| request.getRequestURI().contains("error.jsp")
+				|| request.getRequestURI().contains("signin.jsp") || request.getRequestURI().contains("signup.jsp")
+				|| request.getRequestURI().contains("error.jsp") || request.getRequestURI().contains("home.jsp")
 				|| request.getRequestURI().equals("/CruiseLine-Servlet/");
 
-		boolean tryingToEnter = "signin".equalsIgnoreCase(request.getParameter("action"))
+		boolean tryingToEnter = "main".equalsIgnoreCase(request.getParameter("action"))
+				|| "signin".equalsIgnoreCase(request.getParameter("action"))
 				|| "signup".equalsIgnoreCase(request.getParameter("action"))
 				|| "get_cruises".equalsIgnoreCase(request.getParameter("action"))
 				|| "view_cruise".equalsIgnoreCase(request.getParameter("action"))
@@ -45,16 +45,17 @@ public class LoginFilter implements Filter {
 			UserDTO user = (UserDTO) request.getSession().getAttribute("user");
 			boolean tryingToEnterAdmin = user.getRole().equals(Role.USER)
 					&& (request.getRequestURI().contains("admin.jsp")
-							||"get_orders_that_require_processing".equalsIgnoreCase(request.getParameter("action"))
+							|| "get_orders_that_require_processing".equalsIgnoreCase(request.getParameter("action"))
 							|| "order_admin_operation".equalsIgnoreCase(request.getParameter("action")));
 			if (tryingToEnterAdmin) {
-				response.sendRedirect(request.getContextPath());
+				response.sendRedirect("/CruiseLine-Servlet/");
 			}
 		}
 		if (loggedIn || safePages || tryingToEnter) {
 			filterChain.doFilter(request, response);
 		} else {
-			response.sendRedirect(request.getContextPath() + "/pages/signin.jsp");
+			logger.info("redirect to main page" + request.getContextPath());
+			response.sendRedirect(request.getContextPath() + "/signin.jsp");
 		}
 
 	}

@@ -33,10 +33,10 @@ public class SignInCommand implements Command {
 		} catch (UserNotFoundException e) {
 			logger.info(e);
 			session.setAttribute("wrong_credential", "wrong_credential");
-			return "redirect:CruiseLine-Servlet/pages/signin";
+			return "redirect:CruiseLine-Servlet/signin";
 		}
 		session.removeAttribute("wrong_credential");
-		return "redirect:CruiseLine-Servlet";
+		return "redirect:CruiseLine-Servlet/home.jsp";
 	}
 
 }

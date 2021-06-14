@@ -1,16 +1,14 @@
 package controller.command.impl;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.Locale;
 
-import org.apache.log4j.Logger;
+import javax.servlet.http.HttpServletRequest;
 
 import controller.command.Command;
 import model.service.CruiseService;
 import model.service.impl.CruiseServiceImpl;
 
 public class MainPageCommand implements Command{
-	private static Logger logger = Logger.getLogger(MainPageCommand.class.getName());
-
 	private CruiseService cruiseService;
 
 	public MainPageCommand() {
@@ -19,7 +17,8 @@ public class MainPageCommand implements Command{
 	@Override
 	public String execute(HttpServletRequest request) {
 		request.getSession().setAttribute("pages", cruiseService.getPages());
-		return "/";
+		request.getSession().setAttribute("cruises", cruiseService.getAvailableCruises(1, (Locale) request.getSession().getAttribute("lang")));
+		return "redirect:CruiseLine-Servlet/home.jsp";
 	}
 
 }

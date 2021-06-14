@@ -50,7 +50,6 @@ public class UserDAOImpl extends DBRepository implements UserDAO {
 		} catch (SQLException e) {
 			logger.error("SQLException in getUser(String username) " + e);
 		}
-		logger.debug(user);
 		return Optional.ofNullable(user);
 	}
 
@@ -72,23 +71,6 @@ public class UserDAOImpl extends DBRepository implements UserDAO {
 		}
 	}
 
-	@Override
-	public boolean deleteUser(Long id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean updateUser(User user) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean existsUserWithSuchLogin(String login) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 	@Override
 	public User extractEntity(ResultSet resultSet) throws SQLException {
 		return User.builder().id(resultSet.getLong("id")).username(resultSet.getString("username"))

@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.log4j.Logger;
-
 import converter.impl.CruiseConverter;
 import model.dao.DAOFactory;
 import model.dao.impl.DAOFactoryImpl;
@@ -18,7 +16,6 @@ import util.ResourceManager;
 import util.exception.CruiseNotFoundException;
 
 public class CruiseServiceImpl implements CruiseService {
-	private static Logger logger = Logger.getLogger(CruiseServiceImpl.class.getName());
 
 	private final CruiseConverter cruiseConverter;
 	private final DAOFactory daoFactory;

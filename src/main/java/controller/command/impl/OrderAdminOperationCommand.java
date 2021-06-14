@@ -19,7 +19,7 @@ public class OrderAdminOperationCommand implements Command {
 	public String execute(HttpServletRequest request) {
 		Locale locale =  (Locale) request.getSession().getAttribute("lang");
 		if(request.getParameter("order_id") == null) {
-			//return error page
+			return "redirect:CruiseLine-Servlet/error.jsp";
 		}
 		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
 		String orderIdString = request.getParameter("order_id");
@@ -36,7 +36,7 @@ public class OrderAdminOperationCommand implements Command {
 			//return error page
 			break;
 		}
-		return "redirect:CruiseLine-Servlet/pages/admin.jsp";
+		return "redirect:CruiseLine-Servlet/main?action=get_orders_that_require_processing";
 	}
 
 }

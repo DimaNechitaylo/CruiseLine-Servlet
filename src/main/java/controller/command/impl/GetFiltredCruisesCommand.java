@@ -24,7 +24,6 @@ public class GetFiltredCruisesCommand implements Command {
 	
 	@Override
 	public String execute(HttpServletRequest request) {
-//		Locale locale = new Locale((String) request.getSession().getAttribute("lang"));
 		Locale locale = (Locale) request.getSession().getAttribute("lang");
 
 		String date = (String) request.getParameter("date");
@@ -35,12 +34,12 @@ public class GetFiltredCruisesCommand implements Command {
 			String pageStr = request.getParameter("page");
 			page = Integer.parseInt(pageStr);
 		}catch (Exception e) {
-			return "redirect:CruiseLine-Servlet/pages/error.jsp";
+			return "redirect:CruiseLine-Servlet/error.jsp";
 		}
 		if(!Pattern.compile(ResourceManager.getInstance().getRegularExpressionBundle().getString("filter.min_duration")).matcher(min).find()
 				|| !Pattern.compile(ResourceManager.getInstance().getRegularExpressionBundle().getString("filter.max_duration")).matcher(max).find()) {
 			request.getSession().setAttribute("invalid_duration", "invalid duration");
-			return "redirect:CruiseLine-Servlet";
+			return "redirect:CruiseLine-Servlet/home.jsp";
 		}
 
 		logger.debug(min+"  "+max);
@@ -62,6 +61,6 @@ public class GetFiltredCruisesCommand implements Command {
 		if(!max.isBlank()) {
 			request.getSession().setAttribute("max_duration", max);
 		}
-		return "redirect:CruiseLine-Servlet";
+		return "redirect:CruiseLine-Servlet/home.jsp";
 	}
 }

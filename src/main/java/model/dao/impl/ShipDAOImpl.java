@@ -30,24 +30,6 @@ public class ShipDAOImpl extends DBRepository implements ShipDAO {
 	}
 
 	@Override
-	public boolean addShip(Ship user) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean deleteShip(Long id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean updateShip(Ship user) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public Ship extractEntity(ResultSet resultSet) throws SQLException {
 		Ship ship = null;
 	        while (resultSet.next()) {

@@ -20,7 +20,7 @@ public class GetOrdersThatRequireProcessing implements Command {
 	public String execute(HttpServletRequest request) {
 		List<OrderDTO> ordersThatRequireProcessing = orderService.getOrdersThatRequireProcessing( (Locale) request.getSession().getAttribute("lang"));
 		request.getSession().setAttribute("orders_that_require_processing", ordersThatRequireProcessing);
-		return "redirect:CruiseLine-Servlet/pages/admin.jsp";
+		return "redirect:CruiseLine-Servlet/admin.jsp";
 	}
 
 }

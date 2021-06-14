@@ -27,7 +27,7 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 
 	@Override
 	public Optional<Cruise> getCruise(Long id, Locale locale) {
-		Cruise cruise = Cruise.builder().build();
+		Cruise cruise = null;
 		String query = bundle.getString("cruise.getById");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setLong(1, id);
@@ -40,24 +40,6 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 			logger.error("SQLException in getCruise(int id)" + e);
 		}
 		return Optional.ofNullable(cruise);
-	}
-
-	@Override
-	public boolean addCruise(Cruise user) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean deleteCruise(Long id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean updateCruise(Cruise user) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override
@@ -234,7 +216,7 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 	}
 
 	@Override
-	public Optional<List<Cruise>> getAvailableCruises(int start,int total, Locale locale) {
+	public Optional<List<Cruise>> getAvailableCruises(int start, int total, Locale locale) {
 		List<Cruise> cruiseList = new ArrayList<Cruise>();
 		String query = bundle.getString("cruise.getAvailableCruises");
 		try (PreparedStatement statement = connection.prepareStatement(query)) {

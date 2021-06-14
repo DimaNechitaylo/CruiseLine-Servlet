@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 
 import controller.command.Command;
-import controller.command.CommandCaller;
 import model.dto.UserDTO;
 import model.service.OrderService;
 import model.service.impl.OrderServiceImpl;
@@ -42,7 +41,7 @@ public class OrderUserOperationCommand implements Command {
 				orderService.cancel(orderId, user.getId(),  (Locale) request.getSession().getAttribute("lang"));
 			}
 		}
-		return "redirect:CruiseLine-Servlet/pages/profile.jsp";
+		return "redirect:CruiseLine-Servlet/main?action=profile";
 	}
 
 }

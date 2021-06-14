@@ -6,15 +6,12 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
-
 import controller.command.Command;
 import model.service.CruiseService;
 import model.service.impl.CruiseServiceImpl;
 import util.ResourceManager;
 
 public class GetCruisesCommand implements Command {
-	private static Logger logger = Logger.getLogger(GetCruisesCommand.class.getName());
 
 	private CruiseService cruiseService;
 
@@ -23,15 +20,14 @@ public class GetCruisesCommand implements Command {
 	}
 	@Override
 	public String execute(HttpServletRequest request) {
-//		Locale locale = new Locale((String) request.getSession().getAttribute("lang"));
 		Locale locale = (Locale) request.getSession().getAttribute("lang");
-
+		request.getSession().setAttribute("pages", cruiseService.getPages());
 		Integer page;
 		try {
 			String pageStr = request.getParameter("page");
 			page = Integer.parseInt(pageStr);
 		}catch (Exception e) {
-			return "redirect:CruiseLine-Servlet/pages/error.jsp";
+			return "redirect:CruiseLine-Servlet/error.jsp";
 		}
 		
 		String date = request.getSession().getAttribute("date") == null ? "" :  (String) request.getSession().getAttribute("date");
@@ -41,7 +37,7 @@ public class GetCruisesCommand implements Command {
 		if(!Pattern.compile(ResourceManager.getInstance().getRegularExpressionBundle().getString("filter.min_duration")).matcher(min).find()
 				|| !Pattern.compile(ResourceManager.getInstance().getRegularExpressionBundle().getString("filter.max_duration")).matcher(max).find()) {
 			request.getSession().setAttribute("invalid_duration", "invalid duration");
-			return "redirect:CruiseLine-Servlet";
+			return "redirect:CruiseLine-Servlet/home.jsp";
 		}
 		request.getSession().removeAttribute("invalid_duration");
 		
@@ -50,7 +46,7 @@ public class GetCruisesCommand implements Command {
 		request.getSession().setAttribute("cruises", date.isBlank() 
 													? cruiseService.getFiltredCruises(minDuration, maxDuration, page, locale) 
 													: cruiseService.getFiltredCruises(LocalDate.parse(date), minDuration, maxDuration, page, locale));
-		return "redirect:CruiseLine-Servlet";
+		return "redirect:CruiseLine-Servlet/home.jsp";
 	}
 
 }
