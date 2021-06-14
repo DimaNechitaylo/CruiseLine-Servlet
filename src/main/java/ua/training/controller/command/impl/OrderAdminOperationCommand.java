@@ -22,8 +22,7 @@ public class OrderAdminOperationCommand implements Command {
 			return "redirect:CruiseLine-Servlet/error.jsp";
 		}
 		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
-		String orderIdString = request.getParameter("order_id");
-		Long orderId = Long.parseLong(orderIdString);
+		Long orderId = Long.parseLong(request.getParameter("order_id"));
 
 		switch (request.getParameter("operation")) {
 		case "confirm":
@@ -33,8 +32,7 @@ public class OrderAdminOperationCommand implements Command {
 			orderService.reject(orderId, user.getId(), locale);
 			break;
 		default:
-			//return error page
-			break;
+			return "redirect:CruiseLine-Servlet/error.jsp";
 		}
 		return "redirect:CruiseLine-Servlet/main?action=get_orders_that_require_processing";
 	}

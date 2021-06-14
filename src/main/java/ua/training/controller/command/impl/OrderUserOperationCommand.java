@@ -22,7 +22,6 @@ public class OrderUserOperationCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		logger.debug(request.getParameter("order_id"));
 		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
 		if (request.getParameter("cruise_id") != null && request.getParameter("operation").equals("submit")) {
 			String cruiseIdString = request.getParameter("cruise_id");

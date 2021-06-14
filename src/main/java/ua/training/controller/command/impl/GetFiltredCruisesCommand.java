@@ -6,15 +6,12 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
-
 import ua.training.controller.command.Command;
 import ua.training.model.service.CruiseService;
 import ua.training.model.service.impl.CruiseServiceImpl;
 import ua.training.util.ResourceManager;
 
 public class GetFiltredCruisesCommand implements Command {
-	private static Logger logger = Logger.getLogger(GetFiltredCruisesCommand.class.getName());
 
 	private CruiseService cruiseService;
 

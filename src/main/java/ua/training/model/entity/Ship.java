@@ -58,4 +58,19 @@ public class Ship {
 				"}";	
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+		if (obj == null || obj.getClass() != this.getClass()) {
+			return false;
+		}
+		Ship guest = (Ship) obj;
+		return this.id == guest.id 
+				 && name.equals(guest.getName())
+				 && this.passengerСapacity == guest.passengerСapacity;
+	}
+
+	
 }

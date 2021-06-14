@@ -15,6 +15,8 @@ import org.apache.log4j.Logger;
 import ua.training.model.dao.CruiseDAO;
 import ua.training.model.dao.DAOFactory;
 import ua.training.model.dao.DBRepository;
+import ua.training.model.dao.PortDAO;
+import ua.training.model.dao.UserDAO;
 import ua.training.model.dto.PassengerDTO;
 import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Port;
@@ -188,8 +190,9 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setLong(1, cruiseId);
 			try (ResultSet resultSet = statement.executeQuery()) {
-				while (resultSet.next()) { // TODO optimize
-					portList.add(daoFactory.getPortDAO().extractEntity(resultSet, locale));
+				PortDAO portDao = daoFactory.getPortDAO();
+				while (resultSet.next()) { 
+					portList.add(portDao.extractEntity(resultSet, locale));
 				}
 			}
 		} catch (SQLException e) {
@@ -205,8 +208,9 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setLong(1, cruiseId);
 			try (ResultSet resultSet = statement.executeQuery()) {
-				while (resultSet.next()) { // TODO optimize
-					passengerList.add(daoFactory.getUserDAO().extractPassenger(resultSet));
+				UserDAO userDAO = daoFactory.getUserDAO();
+				while (resultSet.next()) { 
+					passengerList.add(userDAO.extractPassenger(resultSet));
 				}
 			}
 		} catch (SQLException e) {

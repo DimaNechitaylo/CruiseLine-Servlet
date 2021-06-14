@@ -21,8 +21,7 @@ public class ProfileCommand implements Command {
 	@Override
 	public String execute(HttpServletRequest request) {
 		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
-		List<OrderDTO> userOrsers = orderService.getUserOrders(user.getId(),  (Locale) request.getSession().getAttribute("lang"));
-		request.getSession().setAttribute("userOrsers", userOrsers);
+		request.getSession().setAttribute("userOrsers", orderService.getUserOrders(user.getId(),  (Locale) request.getSession().getAttribute("lang")));
 		return "redirect:CruiseLine-Servlet/profile.jsp";
 	}
 

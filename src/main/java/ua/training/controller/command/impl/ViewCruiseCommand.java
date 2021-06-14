@@ -31,13 +31,13 @@ public class ViewCruiseCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		Locale locale =  (Locale) request.getSession().getAttribute("lang");
+		Locale locale = (Locale) request.getSession().getAttribute("lang");
 		try {
-			CruiseDTO cruise = cruiseService.getCruiseDTO(Long.parseLong(request.getParameter("cruise_id")), (Locale) request.getSession().getAttribute("lang"));
-			request.setAttribute("cruise", cruise);
+			request.setAttribute("cruise", cruiseService.getCruiseDTO(Long.parseLong(request.getParameter("cruise_id")),
+					(Locale) request.getSession().getAttribute("lang")));
 
 			UserDTO user = (UserDTO) request.getSession().getAttribute("user");
-			if(Objects.isNull(user)) {
+			if (Objects.isNull(user)) {
 				return "pages/view-cruise.jsp";
 			}
 			request.setAttribute("order",

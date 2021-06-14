@@ -27,7 +27,7 @@ public class Servlet extends HttpServlet {
         logger.info("init");
     }
 
-	protected void doGet(HttpServletRequest request, 
+	public void doGet(HttpServletRequest request, 
 			HttpServletResponse response) 
 					throws ServletException, IOException {
       logger.info("doGet " + request.getParameter("action"));
@@ -36,7 +36,7 @@ public class Servlet extends HttpServlet {
 
 
 
-	protected void doPost(HttpServletRequest request, 
+	public void doPost(HttpServletRequest request, 
 			HttpServletResponse response) 
 					throws ServletException, IOException {
         logger.info("doPost " + request.getParameter("action"));

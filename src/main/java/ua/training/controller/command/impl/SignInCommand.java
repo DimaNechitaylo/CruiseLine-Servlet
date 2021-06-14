@@ -24,9 +24,6 @@ public class SignInCommand implements Command {
 	public String execute(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		try {
-			logger.debug(request.getParameter("username"));
-			logger.debug(request.getParameter("password"));
-
 			UserDTO userDTO = userService.signIn(request.getParameter("username"), 
 					request.getParameter("password"));
 			session.setAttribute("user", userDTO);
