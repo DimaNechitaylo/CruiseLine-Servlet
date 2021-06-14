@@ -42,7 +42,6 @@ public class GetFiltredCruisesCommand implements Command {
 			return "redirect:CruiseLine-Servlet/home.jsp";
 		}
 
-		logger.debug(min+"  "+max);
 		int minDuration = min.isBlank() ? 0 : Integer.parseInt(min);
 		int maxDuration = max.isBlank() ? 10_000 : Integer.parseInt(max);
 		request.getSession().setAttribute("cruises", date.isBlank() 

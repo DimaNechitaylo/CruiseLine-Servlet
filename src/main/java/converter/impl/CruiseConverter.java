@@ -1,25 +1,18 @@
 package converter.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import converter.Mapper;
 import model.dto.CruiseDTO;
 import model.entity.Cruise;
-import model.service.PortService;
-import model.service.impl.PortServiceImpl;
 
 public class CruiseConverter implements Mapper<Cruise, CruiseDTO>{
-	PortService portService;
 	
-	public CruiseConverter() {
-		portService = new PortServiceImpl();
-	}
-
 	@Override
     public CruiseDTO toDto(Cruise cruise) {
-		System.out.println(cruise);
         return CruiseDTO.builder()
         		.id(cruise.getId())
 				.name(cruise.getName())

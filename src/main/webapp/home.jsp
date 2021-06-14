@@ -33,6 +33,7 @@
 								key="main.filter.date" bundle="${locale}" />
 
 						</label> <input type="date" name="date" class="form-control">
+						
 					</div>
 					<fmt:message key="main.filter.duration.title" bundle="${locale}" />
 					<div class="form-group">
@@ -71,7 +72,7 @@
 								</c:if>
 								<c:if test="${not empty min_duration}">
 									<fmt:message key="main.filter.duration.min" bundle="${locale}" />
-									<a>: </a> ${min_duration} 
+									<a>- </a> ${min_duration} 
 								</c:if>
 								<c:if test="${not empty max_duration}"> 
 									<fmt:message key="main.filter.duration.max" bundle="${locale}" />

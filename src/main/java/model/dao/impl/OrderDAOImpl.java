@@ -46,7 +46,6 @@ public class OrderDAOImpl extends DBRepository implements OrderDAO {
 			statement.setLong(1, userId);
 			statement.setLong(2, cruiseId);
 			try (ResultSet resultSet = statement.executeQuery()) {
-				logger.debug("" + cruiseId + "   "+ userId); 
 				while (resultSet.next()) {
 					order = extractEntity(resultSet, locale);
 				}
@@ -258,33 +257,30 @@ public class OrderDAOImpl extends DBRepository implements OrderDAO {
 		} catch (SQLException e) {
 			logger.error("SQLException in findByUser(User user)" + e);
 		}
-		logger.debug(orderList);
 		return Optional.ofNullable(orderList);
 	}
 
 	@Override
 	public Order extractEntity(ResultSet resultSet, Locale locale) throws SQLException {
-		Order order = Order.builder().build();
-			order = Order.builder()
-					.id(resultSet.getLong("o.id"))
-					.user(User.builder()
-							.id(resultSet.getLong("u.id"))
-							.username(resultSet.getString("u.username"))
-							.build())
-					.cruise(Cruise.builder()
-						.id(resultSet.getLong("c.id"))
-						.ship(Ship.builder()
-			            		.id(resultSet.getLong("s.id"))
-			            		.name(resultSet.getString("s.name"))
-			            		.passengerСapacity(resultSet.getInt("s.passenger_сapacity"))
-			            		.build())
-						.name(resultSet.getString("c.name_"+locale.getLanguage()))
-						.description(resultSet.getString("c.description_"+locale.getLanguage()))
-						.start(resultSet.getDate("c.start").toLocalDate())
-						.finish(resultSet.getDate("c.finish").toLocalDate())
+		return Order.builder()
+				.id(resultSet.getLong("o.id"))
+				.user(User.builder()
+						.id(resultSet.getLong("u.id"))
+						.username(resultSet.getString("u.username"))
 						.build())
-					.status(OrderStatus.valueOf(resultSet.getString("st.name")))
-					.build();
-		return order;
+				.cruise(Cruise.builder()
+					.id(resultSet.getLong("c.id"))
+					.ship(Ship.builder()
+		            		.id(resultSet.getLong("s.id"))
+		            		.name(resultSet.getString("s.name"))
+		            		.passengerСapacity(resultSet.getInt("s.passenger_сapacity"))
+		            		.build())
+					.name(resultSet.getString("c.name_"+locale.getLanguage()))
+					.description(resultSet.getString("c.description_"+locale.getLanguage()))
+					.start(resultSet.getDate("c.start").toLocalDate())
+					.finish(resultSet.getDate("c.finish").toLocalDate())
+					.build())
+				.status(OrderStatus.valueOf(resultSet.getString("st.name")))
+				.build();
 	}
 }

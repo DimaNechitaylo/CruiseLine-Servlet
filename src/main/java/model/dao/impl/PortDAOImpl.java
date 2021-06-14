@@ -49,8 +49,6 @@ public class PortDAOImpl extends DBRepository implements PortDAO {
 
 	@Override
 	public Port extractEntity(ResultSet resultSet, Locale locale) throws SQLException {
-		Port port = null;
-		port = Port.builder().id(resultSet.getLong("id")).name(resultSet.getString("name_"+locale)).build();
-		return port;
+		return Port.builder().id(resultSet.getLong("id")).name(resultSet.getString("name_"+locale)).build();
 	}
 }

@@ -22,7 +22,7 @@
 </head>
 <body>
 	<h1>
-		<a href="/CruiseLine-Servlet/"> <img class="icon"
+		<a href="/CruiseLine-Servlet/main?action=main"> <img class="icon"
 			src="assets/cruise-liner.png"> Cruise Line
 		</a>
 	</h1>

@@ -246,30 +246,26 @@ public class CruiseDAOImpl extends DBRepository implements CruiseDAO {
 		} catch (SQLException e) {
 			logger.error("SQLException in getAvailableCruises() " + e);
 		}
-		logger.debug(cruiseCount);
 		return cruiseCount;
 	}
 
 	@Override
 	public Cruise extractEntity(ResultSet resultSet, Locale locale) throws SQLException {
-		Cruise cruise = Cruise.builder().build();
-			cruise = Cruise.builder()
-					.id(resultSet.getLong("c.id"))
-					.name(resultSet.getString("c.name_"+locale.getLanguage()))
-					.description(resultSet.getString("c.description_"+locale.getLanguage()))
-					.ship(Ship.builder()
-							.id(resultSet.getLong("s.id"))
-							.name(resultSet.getString("s.name"))
-							.passengerСapacity(resultSet.getInt("s.passenger_сapacity"))
-							.build())
-					.ports(getPortsByCruiseId(resultSet.getLong("c.id"), locale)
-							.orElseThrow(() -> new PortNotFoundException("the cruise has no ports")))
-					.passengers(getPassengersById(resultSet.getLong("c.id")))
-					.start(resultSet.getDate("c.start").toLocalDate())
-					.finish(resultSet.getDate("c.finish").toLocalDate())
-					.build();
-			logger.debug("Cruise^\n"+cruise);
-		return cruise;
+		return Cruise.builder()
+				.id(resultSet.getLong("c.id"))
+				.name(resultSet.getString("c.name_"+locale.getLanguage()))
+				.description(resultSet.getString("c.description_"+locale.getLanguage()))
+				.ship(Ship.builder()
+						.id(resultSet.getLong("s.id"))
+						.name(resultSet.getString("s.name"))
+						.passengerСapacity(resultSet.getInt("s.passenger_сapacity"))
+						.build())
+				.ports(getPortsByCruiseId(resultSet.getLong("c.id"), locale)
+						.orElseThrow(() -> new PortNotFoundException("the cruise has no ports")))
+				.passengers(getPassengersById(resultSet.getLong("c.id")))
+				.start(resultSet.getDate("c.start").toLocalDate())
+				.finish(resultSet.getDate("c.finish").toLocalDate())
+				.build();
 	}
 
 }
